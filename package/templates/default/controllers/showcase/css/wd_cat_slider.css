@@ -1,0 +1,89 @@
+.scs_slider, .scs_slider *{
+	-webkit-box-sizing: border-box !important;
+	-moz-box-sizing: border-box !important;
+	box-sizing: border-box !important;
+}
+
+.scs_slider {
+    position: relative;
+    padding: 0 10px 0 15px;
+	overflow: hidden;
+    border-left: 1px solid #eee;
+    border-right: 1px solid #eee;
+}
+.scs_slider:hover{border:none}
+
+.scs_slider .customNav a {
+    width: 40px;
+    height: 100%;
+    line-height: 148px;
+    display: block;
+    border: 1px solid #ededed;
+    background: #fff;
+    cursor: pointer;
+    left: -24px;
+    right: auto;
+    position: absolute;
+    z-index: 2;
+    text-align: right;
+    padding-right: 5px;
+}
+
+.scs_slider .customNav a.next{left: auto;right: -24px;text-align: left;padding-left: 4px;}
+.scs_slider:hover .customNav a{left: 0;text-align: center;padding:0;}
+.scs_slider:hover .customNav a.next{right: 0;text-align: center;padding:0;left: auto;}
+
+.scs_slider .customNav a i {
+    color: #797979;
+    display: inline-block;
+    line-height: 38px;
+}
+
+.scs_slider .scs_owl_selector {
+    border-radius: 5px;
+}
+
+.scs_slider .scs_owl_selector .item-cat {
+    border: 1px solid #ededed !important;
+    border-right: none !important;
+    background: #fff;
+    text-align: center;
+}
+
+.scs_slider .scs_owl_selector .item-cat a {
+    display: block;
+    text-align: center;
+    padding: 24px 0;
+	text-decoration:none
+}
+
+.scs_slider .scs_owl_selector .item-cat a span.scs_icon {
+    border: 3px solid #ebba16;
+    border-radius: 50%;
+    display: inline-block;
+    text-align: center;
+    width: 70px;
+    height: 70px;
+	line-height: 86px;
+    margin-bottom: 10px;
+}
+
+.scs_slider .scs_owl_selector .item-cat a span.scs_icon i {
+    display: inline-block;
+    line-height: 66px;
+}
+.scs_slider .scs_owl_selector .item-cat a span.scs_icon img {width:32px;display:inline-block}
+
+.scs_slider .scs_owl_selector .item-cat a span.scs_title {
+    font-size: 16px;
+    color: #484848;
+    display: block;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+@media screen and (max-width: 420px) {
+	.scs_slider .scs_owl_selector .item-cat {width: calc(100% - 5px);}
+	.scs_slider .customNav a{left: 0;text-align: center;padding:0;}
+	.scs_slider .customNav a.next{right: 0;text-align: center;padding:0;left: auto;}
+}

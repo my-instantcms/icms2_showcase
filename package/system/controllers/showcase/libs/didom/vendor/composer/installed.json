@@ -1,0 +1,50 @@
+[
+    {
+        "name": "imangazaliev/didom",
+        "version": "1.8.1",
+        "version_normalized": "1.8.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/Imangazaliev/DiDOM.git",
+            "reference": "b766098bbfbb52838e9fed15db9871464dd27e3e"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/Imangazaliev/DiDOM/zipball/b766098bbfbb52838e9fed15db9871464dd27e3e",
+            "reference": "b766098bbfbb52838e9fed15db9871464dd27e3e",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.4"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "^4.8"
+        },
+        "time": "2016-10-14 11:08:38",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "DiDom\\": "src/DiDom/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Imangazaliev Muhammad",
+                "email": "imangazalievm@gmail.com"
+            }
+        ],
+        "description": "Simple and fast HTML parser",
+        "homepage": "https://github.com/Imangazaliev/DiDOM",
+        "keywords": [
+            "didom",
+            "html",
+            "parser",
+            "xml"
+        ]
+    }
+]

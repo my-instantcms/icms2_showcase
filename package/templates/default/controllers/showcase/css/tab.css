@@ -1,0 +1,109 @@
+.sc_order_lists, .sc_order_lists *{
+	-webkit-box-sizing: border-box !important;
+	-moz-box-sizing: border-box !important;
+	box-sizing: border-box !important;
+}
+@media screen and (max-width: 480px) {
+	
+}
+.sc_order_lists{
+    display: block;
+    margin: 10px 0 0;
+}
+.sc_order_lists table{border-collapse: separate;border-spacing: 2px;border-color: transparent;}
+.sc_order_lists table .sc_ol_titles{background: #eee;text-align: center;}
+.sc_order_lists table .sc_ol_titles td{padding: 5px}
+.sc_order_lists table .sc_ol_item{text-align: center;}
+.sc_order_lists table .sc_ol_item td{padding: 5px;border-bottom: 1px dashed #ddd;}
+.sc_order_lists table .sc_ol_item td.sc_oli_id{font-weight: bold;}
+.sc_order_lists table .sc_ol_item td.sc_oli_goods .sc_oli_toggle{
+    color: #2196F3;
+    border-bottom: 1px dashed #2196F3;
+    cursor: pointer;
+    display: inline-block;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+.sc_order_lists table .sc_ol_item td.sc_oli_price{color:red;font-weight: bold;}
+.sc_order_lists table .sc_oli_goods_list{display: none;}
+.sc_order_lists table .sc_oli_goods_list td{padding: 8px;background: #f7f7f7;border-bottom: 1px dashed #ccc;}
+.sc_order_lists table .sc_oli_goods_list td .sc_oli_goods_item{
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 6px;
+    margin-bottom: 6px;
+}
+.sc_order_lists table .sc_oli_goods_list td .sc_oli_goods_item:last-child{
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+.sc_order_lists table .sc_oli_goods_list td span, .sc_order_view_goods span{margin-right:5px;min-width: 20px;display: inline-block;text-align: center;}
+.sc_order_lists table .sc_oli_goods_list td span.sc_gi_price, .sc_order_view_goods span.sc_gi_price{font-weight: bold;color:red}
+
+.sc_order_view{
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 2px;
+    border-color: grey;
+}
+.sc_order_view tr td.sc_oli_title{
+    background: #eee;
+    border: 1px solid #ddd;
+    padding: 5px 10px;
+}
+.sc_order_view tr td.sc_oli_val{
+    border: 1px solid #eee;
+    padding: 5px 10px;
+}
+.sc_order_view table{
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 2px;
+    border-color: grey;
+}
+.sc_order_view table td{
+    border: 1px solid #eee;
+    width: 50%;
+    padding: 5px 10px;
+}
+
+.sc_order_view_goods{
+	border-bottom: 1px solid #ddd;
+	padding: 3px 5px 6px;
+	margin: 0 -10px 4px;
+}
+.sc_order_view_goods:last-child{
+	border: none;
+    margin-bottom: 0;
+}
+
+.sc_order_btns{
+    border: 1px solid #eee;
+    padding: 5px;
+}
+.sc_order_btns a{
+    background: #eee;
+    color: #444;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    text-decoration: none;
+    padding: 6px 8px;
+    display: inline-block;
+    margin: 1px 2px 1px 2px;
+}
+.sc_order_btns a.sc_payment_btn{background: tomato;border: 1px solid #f54526;color: #fff;}
+.sc_order_btns a.sc_payment_btn:hover{background:#f34c2e;border-color:#e23214}
+
+.tab_btn_more{
+	background: #eee;
+    border: 1px solid #ddd;
+    margin-top: 10px;
+    padding: 8px;
+    text-align: center;
+    border-radius: 3px;
+    cursor: pointer;
+}
