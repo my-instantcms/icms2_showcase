@@ -11,6 +11,11 @@
 		<a href="fix/index_showcase">Пересоздать файл index_<?php html($this->controller->ctype_name); ?>.tpl.php</a>
 	</div>
 </p>
+<h3>Версия 1.2.0</h3>
+<ul class="diagnostics">
+	<li>Таблица sc_aggregators: <?php echo $sc_aggregators ? '<b>Да</b>' : '<a href="fix/sc_aggregators">Исправить</a>'; ?></li>
+	<li>Задача yml планировщика: <?php echo $yml ? '<b>Да</b>' : '<a href="fix/yml">Исправить</a>'; ?></li>
+</ul>
 <h3>Версия 1.1.7</h3>
 <ul class="diagnostics">
 	<li>Таблица sc_tabs: <?php echo $sc_tabs ? '<b>Да</b>' : '<a href="fix/sc_tabs">Исправить</a>'; ?></li>

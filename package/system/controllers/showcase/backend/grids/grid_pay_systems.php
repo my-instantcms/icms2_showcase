@@ -42,7 +42,7 @@ function grid_pay_systems($controller) {
             'title' => LANG_DELETE,
             'class' => 'delete',
             'href' => href_to($controller->root_url, 'delete', array('sc_' . $page_name, '{id}')),
-            'confirm' => LANG_CP_FIELD_DELETE_CONFIRM
+            'confirm' => LANG_DELETE . '?'
         )
     );
 

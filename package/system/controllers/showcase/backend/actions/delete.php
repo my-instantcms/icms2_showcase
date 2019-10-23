@@ -23,6 +23,7 @@ class actionShowcaseDelete extends cmsAction {
 					}
 				}
 				cmsUser::addSessionMessage('Данные успешно удалены', 'success');
+				$this->redirectBack();
 			}
 		}
 

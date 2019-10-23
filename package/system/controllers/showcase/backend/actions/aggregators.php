@@ -1,10 +1,10 @@
 <?php
 
-class actionShowcaseTabs extends cmsAction {
+class actionShowcaseAggregators extends cmsAction {
 	
-	public $page_name = 'tabs';
+	public $page_name = 'aggregators';
 
-	public function run($is_ajax = false) {
+    public function run($is_ajax = false) {
 		
 		$grid = $this->loadDataGrid($this->page_name);
 
@@ -12,7 +12,7 @@ class actionShowcaseTabs extends cmsAction {
 
 			if (!$this->request->isAjax()) { cmsCore::error404(); }
 
-			$items = $this->model->orderBy('i.ordering', 'asc')->getData('sc_tabs');
+			$items = $this->model->getData('sc_' . $this->page_name);
 			
 			$this->cms_template->renderGridRowsJSON($grid, $items);
 			$this->halt();

@@ -19,16 +19,16 @@ class actionShowcaseSetOrderStatus extends cmsAction {
 
 			if (!empty($item['fields'])){
 				$status = $this->getStatuses($status_id);
-				$delivery = !empty($item['delivery']) ? cmsModel::yamlToArray($item['delivery']) : false;
-				if ($delivery){
-					if ($delivery){
-						if ($delivery['type'] == 'courier'){
-							$status = 'Доставляется';
-						} else {
-							$status = 'Ожидает получения';
-						}
-					}
-				}
+				// $delivery = !empty($item['delivery']) ? cmsModel::yamlToArray($item['delivery']) : false;
+				// if ($delivery){
+					// if ($delivery){
+						// if ($delivery['type'] == 'courier'){
+							// $status = 'Доставляется';
+						// } else {
+							// $status = 'Ожидает получения';
+						// }
+					// }
+				// }
 				$cart_fields = cmsModel::yamlToArray($item['fields']);
 				$to = array('email' => $cart_fields['email'], 'name' => $cart_fields['name']);
 				$hash = !empty($item['user_id']) ? '' : '?access=' . hash("adler32", $order_id . $cart_fields['email']);

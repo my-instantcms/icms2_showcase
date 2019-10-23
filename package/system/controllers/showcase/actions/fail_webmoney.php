@@ -74,13 +74,6 @@ class actionShowcaseFailWebmoney extends cmsAction {
 			$this->model->updData('sc_transactions', $transaction['id'], array('system_id' => $system['id']));
 		}
 		
-		if ($order_id && !$errors && empty($system['is_test'])){
-			$this->model->updData('sc_checkouts', $order_id, array('paid' => 2));
-		}
-		if (!empty($order) && empty($system['is_test'])){
-			$this->sendPayNotices($order['id'], $order['price'], $order['status']);
-		}
-		
 		if ($transaction && !$errors){
 			$transaction = $this->scUpdateTransaction($transaction, 'history', 'Операция прошла неудачно');
 		}

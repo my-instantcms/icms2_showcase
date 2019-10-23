@@ -20,7 +20,7 @@ class onShowcaseContentBeforeList extends cmsAction {
 			foreach($items as $id => $item){
 				if (empty($item['variants'])){ continue; }
 				$variants = is_array($item['variants']) ? $item['variants'] : cmsModel::yamlToArray($item['variants']);
-				if ($item['variants']){
+				if ($variants){
 					$items[$id]['variants'] = $this->model->
 						useCache("showcase.sc_variations")->
 						filterIn('i.id', $variants)->

@@ -24,6 +24,9 @@ class actionShowcaseDiagnostics extends cmsAction {
 		$nds = $this->model->db->isFieldExists('sc_pay_systems', 'nds');
 		
 		$sc_tabs = $this->model->db->query("SELECT id FROM {#}sc_tabs", false, true) ? 1 : 0;
+
+		$sc_aggregators = $this->model->db->query("SELECT id FROM {#}sc_aggregators", false, true) ? 1 : 0;
+		$yml = $this->model->getItemByField('scheduler_tasks', 'hook', 'yml');
 		
 		return $this->cms_template->render('backend/diagnostics', array(
             'paid' => $paid,
@@ -37,6 +40,8 @@ class actionShowcaseDiagnostics extends cmsAction {
             'tax' => $tax,
             'nds' => $nds,
             'sc_tabs' => $sc_tabs,
+            'sc_aggregators' => $sc_aggregators,
+            'yml' => $yml,
         ));
 		
     }

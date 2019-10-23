@@ -75,8 +75,8 @@ function grid_cart_transactions($controller) {
         array(
             'title' => LANG_DELETE,
             'class' => 'delete',
-            'href' => href_to($controller->root_url, 'delete', array('sc_' . $page_name, '{id}')),
-            'confirm' => LANG_CP_FIELD_DELETE_CONFIRM
+            'href' => href_to($controller->root_url, 'delete', array('sc_transactions', '{id}')),
+            'confirm' => LANG_DELETE . '?'
         )
     );
 

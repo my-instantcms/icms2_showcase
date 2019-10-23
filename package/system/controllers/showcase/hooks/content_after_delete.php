@@ -45,7 +45,7 @@ class onShowcaseContentAfterDelete extends cmsAction {
 			));
 		}
 
-        return true;
+        return $data;
 
     }
 

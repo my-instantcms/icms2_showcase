@@ -26,9 +26,17 @@
 				<i class="glyphicon glyphicon-copy"></i>
 				Импорт товаров
 			</a>
+			<a class="sc_ac_btns" href="<?php echo $this->href_to('1c_exchange'); ?>">
+                <i class="glyphicon glyphicon-copy"></i>
+                Обменн данными с 1с
+            </a>
 			<a class="sc_ac_btns" href="<?php echo $this->href_to('tabs'); ?>">
 				<i class="glyphicon glyphicon-credit-card"></i>
 				Управление вкладками
+			</a>
+			<a class="sc_ac_btns" href="<?php echo $this->href_to('aggregators'); ?>">
+				<i class="glyphicon glyphicon-shopping-cart"></i>
+				Прайс-агрегаторы
 			</a>
 		</div>
 	</div>

@@ -339,3 +339,6 @@ form fieldset legend{
 
 input[name="conversion[course]"]{width: 100px !important}
 input[name="conversion[course]"] + button{height: 27px;margin-left: -1px;}
+
+body .input-prefix-suffix .prefix, body .input-prefix-suffix .suffix{padding:4px 8px 20px}
+#related_list select{width:100%}

@@ -61,25 +61,25 @@ class actionShowcaseFix extends cmsAction {
 			case 'v_sale':
 				$v_sale = $this->model->db->isFieldExists('sc_variations', 'sale');
 				if (!$v_sale){
-					$this->model->db->query("ALTER TABLE `{#}sc_variations` ADD `sale` FLOAT NULL DEFAULT NULL AFTER `size`;", 0, 1);
+					$this->model->db->query("ALTER TABLE `{#}sc_variations` ADD `sale` FLOAT NULL DEFAULT NULL;", 0, 1);
 				}
 				break;
 			case 'v_seo_keys':
 				$v_seo_keys = $this->model->db->isFieldExists('sc_variations', 'seo_keys');
 				if (!$v_seo_keys){
-					$this->model->db->query("ALTER TABLE `{#}sc_variations` ADD `seo_keys` VARCHAR(250) NULL DEFAULT NULL AFTER `sale`", 0, 1);
+					$this->model->db->query("ALTER TABLE `{#}sc_variations` ADD `seo_keys` VARCHAR(250) NULL DEFAULT NULL", 0, 1);
 				}
 				break;
 			case 'v_seo_desc':
 				$v_seo_desc = $this->model->db->isFieldExists('sc_variations', 'seo_desc');
 				if (!$v_seo_desc){
-					$this->model->db->query("ALTER TABLE `{#}sc_variations` ADD `seo_desc` VARCHAR(250) NULL DEFAULT NULL AFTER `seo_keys`", 0, 1);
+					$this->model->db->query("ALTER TABLE `{#}sc_variations` ADD `seo_desc` VARCHAR(250) NULL DEFAULT NULL", 0, 1);
 				}
 				break;
 			case 'v_seo_title':
 				$v_seo_title = $this->model->db->isFieldExists('sc_variations', 'seo_title');
 				if (!$v_seo_title){
-					$this->model->db->query("ALTER TABLE `{#}sc_variations` ADD `seo_title` VARCHAR(250) NULL DEFAULT NULL AFTER `seo_desc`", 0, 1);
+					$this->model->db->query("ALTER TABLE `{#}sc_variations` ADD `seo_title` VARCHAR(250) NULL DEFAULT NULL", 0, 1);
 				}
 				break;
 			case 'receipt':
@@ -104,6 +104,18 @@ class actionShowcaseFix extends cmsAction {
 				$sc_tabs = $this->model->db->query("SELECT id FROM {#}sc_tabs", false, true) ? 1 : 0;
 				if (!$sc_tabs){
 					$this->model->db->query("CREATE TABLE IF NOT EXISTS `{#}sc_tabs` (`id` int(11) NOT NULL AUTO_INCREMENT,`title` varchar(50) NOT NULL,`type` varchar(30) DEFAULT 'fields',`style` varchar(30) DEFAULT NULL,`fields` text,`text` text,`parent` varchar(50) DEFAULT NULL,`child` varchar(50) DEFAULT NULL,`ordering` int(11) DEFAULT '99',`is_pub` tinyint(1) DEFAULT '1',PRIMARY KEY (`id`)) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4;TRUNCATE TABLE `{#}sc_tabs`;INSERT INTO `{#}sc_tabs` (`id`, `title`, `type`, `style`, `fields`, `text`, `parent`, `child`, `ordering`, `is_pub`) VALUES(1, 'Описание', 'fields', NULL, '---\r\ncontent', NULL, NULL, NULL, 1, 1),(2, 'Характеристика', 'fields', NULL, '---\n- color\n- size\n- sc_prop_list\n', NULL, NULL, NULL, 2, 1),(3, 'Теги', 'fields', NULL, '---\n- sc_tag_list\n', NULL, NULL, NULL, 3, 1);", 0, 1);
+				}
+				break;
+			case 'sc_aggregators':
+				$sc_aggregators = $this->model->db->query("SELECT id FROM {#}sc_aggregators", false, true) ? 1 : 0;
+				if (!$sc_aggregators){
+					$this->model->db->query("CREATE TABLE IF NOT EXISTS `{#}sc_aggregators`(`id` int(11) NOT NULL AUTO_INCREMENT,`name` varchar(20) NOT NULL,`company` varchar(100) NOT NULL,`email` varchar(60) DEFAULT NULL,`url` varchar(100) NOT NULL,`categories` text,`currency` varchar(20) DEFAULT NULL,`relateds` text,`fields` text,`currencies` text NOT NULL,`adult` tinyint(1) DEFAULT '0',`delivery` tinyint(1) DEFAULT '1',`cost` decimal(11,0) DEFAULT NULL,`days` varchar(20) DEFAULT NULL,`pickup` tinyint(1) DEFAULT '1',`pickup_cost` decimal(11,0) DEFAULT NULL,`pickup_days` varchar(20) DEFAULT NULL,`store` tinyint(1) DEFAULT NULL,`files` text,`is_pub` tinyint(1) DEFAULT '1',PRIMARY KEY (`id`)) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;", 0, 1);
+				}
+				break;
+			case 'yml':
+				$yml = $this->model->getItemByField('scheduler_tasks', 'hook', 'yml');
+				if (!$yml){
+					$this->model->db->query("INSERT INTO `{#}scheduler_tasks` (`title`, `controller`, `hook`, `period`, `date_last_run`, `is_active`, `is_new`) VALUES ('Создание yml карты товаров', 'showcase', 'yml', 1440, NULL, 1, 1);", 0, 1);
 				}
 				break;
 		}

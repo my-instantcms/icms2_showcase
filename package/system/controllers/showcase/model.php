@@ -100,6 +100,7 @@ class modelShowcase extends cmsModel{
 			$this->delete('widgets', $widget['id']);
 		}
 
+		$this->db->dropTable('sc_aggregators');
 		$this->db->dropTable('sc_cart_delivery');
 		$this->db->dropTable('sc_cart_fields');
 		$this->db->dropTable('sc_checkouts');

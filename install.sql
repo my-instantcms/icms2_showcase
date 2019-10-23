@@ -208,13 +208,38 @@ CREATE TABLE IF NOT EXISTS `{#}sc_variations` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
+CREATE TABLE IF NOT EXISTS `{#}sc_aggregators` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(20) NOT NULL,
+  `company` varchar(100) NOT NULL,
+  `email` varchar(60) DEFAULT NULL,
+  `url` varchar(100) NOT NULL,
+  `categories` text,
+  `currency` varchar(20) DEFAULT NULL,
+  `relateds` text,
+  `fields` text,
+  `currencies` text NOT NULL,
+  `adult` tinyint(1) DEFAULT '0',
+  `delivery` tinyint(1) DEFAULT '1',
+  `cost` decimal(11,0) DEFAULT NULL,
+  `days` varchar(20) DEFAULT NULL,
+  `pickup` tinyint(1) DEFAULT '1',
+  `pickup_cost` decimal(11,0) DEFAULT NULL,
+  `pickup_days` varchar(20) DEFAULT NULL,
+  `store` tinyint(1) DEFAULT NULL,
+  `files` text,
+  `is_pub` tinyint(1) DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+
 DELETE FROM `{#}users_tabs` WHERE `controller` = 'showcase';
 INSERT INTO `{#}users_tabs` (`title`, `controller`, `name`, `is_active`, `ordering`, `groups_view`, `groups_hide`, `show_only_owner`) VALUES
 ('Мои заказы', 'showcase', 'orders', 1, 4, NULL, NULL, 1);
 
 DELETE FROM `{#}scheduler_tasks` WHERE `controller` = 'showcase';
 INSERT INTO `{#}scheduler_tasks` (`title`, `controller`, `hook`, `period`, `date_last_run`, `is_active`, `is_new`) VALUES 
-('Обновление курса валют в платежных системах', 'showcase', 'course', 1440, NULL, 1, 1);
+('Обновление курса валют в платежных системах', 'showcase', 'course', 1440, NULL, 1, 1),
+('Создание yml карты товаров', 'showcase', 'yml', 1440, NULL, 1, 1);
 
 DELETE FROM `{#}widgets` WHERE `controller` = 'showcase';
 INSERT INTO `{#}widgets` (`controller`, `name`, `title`, `author`, `url`, `version`) VALUES
