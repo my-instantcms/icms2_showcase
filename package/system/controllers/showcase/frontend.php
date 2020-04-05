@@ -31,69 +31,10 @@ class showcase extends cmsFrontend {
 
 		return $action_name;
 
-	}		
+	}	
+	
 	public function actionExit(){ return; }
 	
-	public function getStatuses($id = false){
-		return $id ? (!empty($this->status[$id]) ? $this->status[$id] : false) : $this->status;
-	}
-
-	public function getCartFieldsType(){
-		$types = array(
-			'string' => 'Строковое поле',
-			'telephone' => 'Номер телефона',
-			'select' => 'Список',
-			'checkbox' => 'Флаг',
-		);
-		return $types;
-	}
-
-	public function getFormFields($field, $values){
-		$file = $this->cms_template->getTplFilePath('controllers/showcase/fields/cart_fields/' . $field['type'] . '.tpl.php', false);
-		$tpl = $file ? $field['type'] : 'default';
-		return $this->cms_template->renderControllerChild('showcase/fields/cart_fields', $tpl, array(
-			'field' => $field,
-			'values' => $values
-		));
-	}
-
-	public function getStepList($only_enabled = true){
-
-		if ($only_enabled){
-			$this->model->filterEqual('i.is_pub', 1);
-		}
-		
-		$step = array(0 => array(
-			'id' => 0,
-			'title' => 'Список товаров корзины',
-			'tpl' => 'cart_big',
-			'is_pub' => 1,
-			'ordering' => 1
-		));
-
-		$steps = $this->model->orderBy('i.ordering', 'asc')->getData('sc_steps');
-
-		return $steps ? $step + $steps : $step;
-
-	}
-	
-	public function getNextStep($current = 0){
-		$steps = array_values($this->getStepList(1));
-		foreach($steps as $id => $step){
-			if ($step['id'] == $current){
-				$next = !empty($steps[($id + 1)]) ? $steps[($id + 1)] : array('id' => 'checkout');
-				return array(
-					'current' => $step,
-					'next' => $next
-				);
-			}
-		}
-		return array(
-			'step' => !empty($steps[$current]) ? $steps[$current] : array('id' => 'checkout'),
-			'current' => !empty($steps[$current]) ? $steps[$current] : array('id' => 'checkout'),
-		);
-	}
-
 	public function renderCartData($return_data = array()){
 
 		if (!$this->ctype_name){
@@ -118,7 +59,13 @@ class showcase extends cmsFrontend {
 		$items = cmsUser::sessionGet($session_name);
         if (!$items) { 
 			if ($this->request->isAjax()){
-				return $this->cms_template->renderJSON(array('error' => false, 'html' => '<p class="sc_no_goods"><span>Нет товаров</span><i class="fa fa-shopping-basket"></i></p>'));
+				return array(
+					'items' => array(),
+					'fields' => array(),
+					'summ' => 0,
+					'count' => 0,
+					'ctype_name' => $this->ctype_name
+				) + $return_data;
 			} else {
 				return array('items' => $items) + $return_data;
 			}
@@ -211,17 +158,97 @@ class showcase extends cmsFrontend {
 				}
 				$count++;
 			}
+			
+			$sales = $this->model->filterEqual('i.is_pub', 1)->orderBy('i.start', 'ASC')->getData('sc_sales');
+			$current_sale = false;
+			$old_summ = $summ;
+			if ($sales){
+				foreach ($sales as $sale){
+					if ($summ >= $sale['start']){
+						$current_sale = array('id' => $sale['id']) + $sale;
+					}
+				}
+				if ($current_sale){
+					if ($current_sale['type'] == 'prosent'){
+						$prosent = ($summ / 100 * (float)$current_sale['sale']);
+						$summ = ($summ - $prosent);
+					} else {
+						$summ = ($summ - (float)$current_sale['sale']);
+					}
+				}
+			}
 
 		}
-
+		
 		return array(
 			'items' => $items,
 			'fields' => $fields,
 			'summ' => $summ,
+			'sale' => $current_sale ? $current_sale + array('old_summ' => $old_summ) : false,
 			'count' => $count,
 			'ctype_name' => $this->ctype_name
 		) + $return_data;
 		
+	}
+	
+	public function getStatuses($id = false){
+		return $id ? (!empty($this->status[$id]) ? $this->status[$id] : false) : $this->status;
+	}
+
+	public function getCartFieldsType(){
+		$types = array(
+			'string' => 'Строковое поле',
+			'telephone' => 'Номер телефона',
+			'select' => 'Список',
+			'checkbox' => 'Флаг',
+		);
+		return $types;
+	}
+
+	public function getFormFields($field, $values){
+		$file = $this->cms_template->getTplFilePath('controllers/showcase/fields/cart_fields/' . $field['type'] . '.tpl.php', false);
+		$tpl = $file ? $field['type'] : 'default';
+		return $this->cms_template->renderControllerChild('showcase/fields/cart_fields', $tpl, array(
+			'field' => $field,
+			'values' => $values
+		));
+	}
+
+	public function getStepList($only_enabled = true){
+
+		if ($only_enabled){
+			$this->model->filterEqual('i.is_pub', 1);
+		}
+		
+		$step = array(0 => array(
+			'id' => 0,
+			'title' => 'Список товаров корзины',
+			'tpl' => 'cart_big',
+			'is_pub' => 1,
+			'ordering' => 1
+		));
+
+		$steps = $this->model->orderBy('i.ordering', 'asc')->getData('sc_steps');
+
+		return $steps ? $step + $steps : $step;
+
+	}
+	
+	public function getNextStep($current = 0){
+		$steps = array_values($this->getStepList(1));
+		foreach($steps as $id => $step){
+			if ($step['id'] == $current){
+				$next = !empty($steps[($id + 1)]) ? $steps[($id + 1)] : array('id' => 'checkout');
+				return array(
+					'current' => $step,
+					'next' => $next
+				);
+			}
+		}
+		return array(
+			'step' => !empty($steps[$current]) ? $steps[$current] : array('id' => 'checkout'),
+			'current' => !empty($steps[$current]) ? $steps[$current] : array('id' => 'checkout'),
+		);
 	}
 	
 	public function getArtikulById($item_id, $variant_id = false){
@@ -246,10 +273,10 @@ class showcase extends cmsFrontend {
 	}
 	
 	public function getPriceFormat($price, $iso = false, $return_units = true){
-		$units = !empty($this->options['cerrency']) ? $this->options['cerrency'] : LANG_CURRENCY;
+		$units = !empty($this->options['currency']) ? $this->options['currency'] : LANG_CURRENCY;
 		if ($iso){
-			$cerrency_iso = !empty($this->options['cerrency_iso']) ? $this->options['cerrency_iso'] : 'RUB';
-			$units = '<sub itemprop="priceCurrency" content="' . $cerrency_iso . '"> ' . $units . '</sub>';
+			$currency_iso = !empty($this->options['currency_iso']) ? $this->options['currency_iso'] : 'RUB';
+			$units = '<sub itemprop="priceCurrency" content="' . $currency_iso . '"> ' . $units . '</sub>';
 		}
 		$price_format = !empty($this->options['price_format']) ? $this->options['price_format'] : 1;
 		if ($price_format == 1){
@@ -289,7 +316,7 @@ class showcase extends cmsFrontend {
 			if ($emails){
 				$mail_data = array(
 					'order_id' => $order_id,
-					'summ' => $summ . ' ' . (!empty($this->options['cerrency']) ? $this->options['cerrency'] : LANG_CURRENCY),
+					'summ' => $summ . ' ' . (!empty($this->options['currency']) ? $this->options['currency'] : LANG_CURRENCY),
 					'url' => href_to_abs('showcase', 'orders', array($order_id, $status)),
 				);
 				if (is_array($emails)){

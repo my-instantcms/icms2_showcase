@@ -57,10 +57,13 @@
 		<?php } ?>
 	</div>
 	<br />
-	<div class="wd_scl_footer">
-		<div class="wd_sclf_summ">
-			Итого: <b><?php echo $this->controller->getPriceFormat($summ); ?></b>
-		</div>
-		<a class="wd_sclf_checkout" <?php if ($courier_delivery || $pickup_delivery){ ?>style="display:none"<?php } ?> href="<?php echo href_to('showcase', 'cart', $next); ?>" rel="nofollow">Оформить заказ</a>
-	</div>
+	<?php 
+		$this->renderControllerChild('showcase/tpl', 'steps_footer', array(
+			'showcase' => $this->controller,
+			'summ' => $summ, 
+			'next' => !empty($next) ? $next : '', 
+			'sale' => $sale, 
+			'attributes' => ($courier_delivery || $pickup_delivery) ? array('style' => 'display:none') : false, 
+		));
+	?>
 </div>

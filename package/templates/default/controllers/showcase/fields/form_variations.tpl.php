@@ -52,10 +52,10 @@
 		<?php } ?>
 	<?php } ?>
 	<div class="sfv_field_box sfv_price">
-		<b>Цена:</b> <input id="sfv_price" type="number" class="sfv_field" value="<?php echo !empty($variations['price']) ? $variations['price'] : $item['price']; ?>"> <span><?php echo !empty($this->controller->options['cerrency']) ? $this->controller->options['cerrency'] : LANG_CURRENCY; ?></span>
+		<b>Цена:</b> <input id="sfv_price" type="number" class="sfv_field" value="<?php echo !empty($variations['price']) ? $variations['price'] : $item['price']; ?>"> <span><?php echo !empty($this->controller->options['currency']) ? $this->controller->options['currency'] : LANG_CURRENCY; ?></span>
 	</div>
 	<div class="sfv_field_box sfv_sale">
-		<b>Скидка:</b> <input id="sfv_sale" type="number" class="sfv_field" placeholder="Цена со скидкой" value="<?php echo !empty($variations['sale']) ? $variations['sale'] : $item['sale']; ?>"> <span><?php echo !empty($this->controller->options['cerrency']) ? $this->controller->options['cerrency'] : LANG_CURRENCY; ?></span>
+		<b>Скидка:</b> <input id="sfv_sale" type="number" class="sfv_field" placeholder="Цена со скидкой" value="<?php echo !empty($variations['sale']) ? $variations['sale'] : $item['sale']; ?>"> <span><?php echo !empty($this->controller->options['currency']) ? $this->controller->options['currency'] : LANG_CURRENCY; ?></span>
 	</div>
 	<div class="sfv_field_box sfv_in">
 		<b>В наличии:</b> <input id="sfv_in" type="number" class="sfv_field" value="<?php echo !empty($variations['in']) ? $variations['in'] : (!empty($item['in_stock']) ? $item['in_stock'] : ''); ?>">

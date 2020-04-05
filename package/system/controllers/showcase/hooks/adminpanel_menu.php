@@ -10,7 +10,8 @@ class onShowcaseAdminpanelMenu extends cmsAction {
 			'title' => 'Магазин',
 			'url' => href_to('admin', 'controllers', array('edit', 'showcase')),
 			'options' => array(
-				'class' => 'item-showcase'
+				'class' => 'item-showcase',
+				'icon'  => 'nav-icon icon-basket'
 			)
 		);
 

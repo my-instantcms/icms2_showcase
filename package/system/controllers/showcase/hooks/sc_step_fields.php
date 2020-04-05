@@ -21,11 +21,14 @@ class onShowcaseScStepFields extends cmsAction {
 				if (!empty($this->options['system_pay_cash'])){
 					$data['cart_fields']['paid']['systems'][0] = $this->model->getCashPaySystem();
 				}
+				if (!empty($this->options['system_pay_check'])){
+					$data['cart_fields']['paid']['systems'][999] = $this->model->getCheckPaySystem();
+				}
 				$systems = $this->model->
 					filterEqual('i.is_pub', 1)->
 					orderBy('i.ordering', 'ASC')->
 					getData('sc_pay_systems');
-				$data['cart_fields']['paid']['systems'] = !empty($data['cart_fields']['paid']['systems'][0]) ? array_merge($data['cart_fields']['paid']['systems'], $systems) : $systems;
+				$data['cart_fields']['paid']['systems'] = !empty($data['cart_fields']['paid']['systems'][0]) ? array_merge($data['cart_fields']['paid']['systems'], ($systems ? $systems : array())) : $systems;
 			}
 		}
 			

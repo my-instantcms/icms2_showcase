@@ -75,6 +75,25 @@ class modelShowcase extends cmsModel{
 		);
     }
 	
+	public function getCheckPaySystem(){
+        return array(
+			'id' => 999,
+			'gateway_name' => 'check',
+			'title' => 'По реквизитам',
+			'hint' => '',
+			'icon' => '/templates/default/controllers/showcase/img/check.png',
+			'wallet_id' => '',
+			'currency' => '',
+			'secret_key' => '',
+			'pay_type' => '',
+			'redirect_success' => '',
+			'redirect_fail' => '',
+			'is_test' => 0,
+			'is_pub' => 1,
+			'ordering' => 0
+		);
+    }
+	
 	public function curl_get_contents($url, $post_data = false){
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_HEADER, 0);

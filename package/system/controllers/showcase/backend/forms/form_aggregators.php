@@ -126,7 +126,7 @@ class formShowcaseAggregators extends cmsForm{
 					new fieldNumber('cost', array(
                         'title' => 'Цена доставки',
                         'hint' => 'Указывайте максимальную цену доставки',
-                        'units' => !empty($showcase->options['cerrency']) ? $showcase->options['cerrency'] : '$',
+                        'units' => !empty($showcase->options['currency']) ? $showcase->options['currency'] : '$',
 						'visible_depend' => array('delivery' => array('show' => array('1')))
                     )),
 
@@ -142,7 +142,7 @@ class formShowcaseAggregators extends cmsForm{
 
 					new fieldNumber('pickup_cost', array(
                         'title' => 'Цена самовывоза',
-                        'units' => !empty($showcase->options['cerrency']) ? $showcase->options['cerrency'] : '$',
+                        'units' => !empty($showcase->options['currency']) ? $showcase->options['currency'] : '$',
 						'visible_depend' => array('pickup' => array('show' => array('1')))
                     )),
 

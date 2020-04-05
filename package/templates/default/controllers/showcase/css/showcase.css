@@ -113,10 +113,22 @@ input[type=text],input[type=number],input[type=email],input[type=searche], input
     background: #eee;
     margin: 0 10px 10px 0;
     border-radius: 2px;
-	color: #444
+    color: #444;
+    position: relative;
 }
 .sc_admin_cart .sc_ac_btns:hover{background: #f9f9f9;}
 .sc_admin_cart .sc_ac_btns i{color: #444;margin: 8px 0 0;display: block;font-size: 18px;}
+.sc_admin_cart .sc_ac_btns span{
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    background: red;
+    color: #fff;
+    height: 18px;
+    line-height: 16px;
+    padding: 0 4px;
+    border-radius: 2px;
+}
 
 #cp_header #menu .item-showcase .wrap {
     background-image: url("/templates/default/controllers/showcase/img/menu.png");
@@ -169,7 +181,7 @@ input[type=text],input[type=number],input[type=email],input[type=searche], input
 .variantsRowFormatter .tabulator-row.tabulator-row-even{background: #fff;}
 .variantsRowFormatter .tabulator-row.tabulator-selectable:hover{background: #f9f8f8 !important;}
 
-#cp_body .datagrid_wrapper table td a[href="/admin/controllers/edit/showcase"]{font-weight: bold;}
+#cp_body .datagrid_wrapper table td a, .container-fluid .datagrid tr td a[href="/admin/controllers/edit/showcase"]{font-weight: bold;}
 
 .sc_variants_selector{
     position: absolute;
@@ -216,6 +228,8 @@ input[type=text],input[type=number],input[type=email],input[type=searche], input
     color: #fff;
 }
 .sc_add_pay_systems li a i{margin-right:3px}
+.sc_preorder_box{margin:10px;width:320px}
+.sc_preorder_box #text{height:100px}
 
 @media screen and (max-width: 1200px) {
 	.sc_admin_cart .sc_ac_btns{width:23%}

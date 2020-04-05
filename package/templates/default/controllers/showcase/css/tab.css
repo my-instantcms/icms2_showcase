@@ -54,6 +54,7 @@
     background: #eee;
     border: 1px solid #ddd;
     padding: 5px 10px;
+    min-width: 100px;
 }
 .sc_order_view tr td.sc_oli_val{
     border: 1px solid #eee;
@@ -106,4 +107,29 @@
     text-align: center;
     border-radius: 3px;
     cursor: pointer;
+}
+
+.sc_order_edit{}
+.sc_order_edit tr td input{}
+.sc_order_edit select[name="date[hours]"], .sc_order_edit select[name="date[mins]"]{width: 50px;}
+.sc_order_edit .price_input{width: 120px;padding: 4px 8px;border: solid 1px #aaa;box-shadow: inset 0 1px 2px #DDD;color: #333;outline: none;}
+.sc_order_edit .sc_order_view_goods select{width: 47%;}
+.sc_order_view_good{display: flex;justify-content: space-between;}
+.scovg_add_goods{
+    text-decoration: none;
+    text-align: center;
+    display: inline-block;
+    padding: 5px 3px;
+    border-bottom: 1px dashed;
+    margin: 4px;
+}
+.scovg_delete{
+	text-decoration: none;
+    background: red;
+    height: 27px;
+    width: 25px;
+    text-align: center;
+    line-height: 27px;
+    color: #fff;
+    border-radius: 2px;
 }

@@ -127,6 +127,7 @@ class actionShowcaseSuccessYandex extends cmsAction {
 		
 		if ($order_id && !$errors){
 			$this->model->updData('sc_checkouts', $order_id, array('paid' => 2));
+			cmsEventsManager::hook('sc_success_paid', array($order, $system, $transaction));
 		}
 		if (!empty($order)){
 			$this->sendPayNotices($order['id'], $order['price'], $order['status']);

@@ -95,7 +95,7 @@ body{font-size:14px}
 				<b><?php echo ($delivery['type'] == 'courier') ? 'Курьерская доставка' : 'Самовывоз'; ?>: </b> 
 				<span>
 					<?php html($delivery['title']); ?> - 
-					<b><?php echo $delivery['price'] ? $delivery['price'] . ' ' . (!empty($this->controller->options['cerrency']) ? $this->controller->options['cerrency'] : LANG_CURRENCY) : (isset($delivery['price']) ? 'Бесплатно' : 'Не указана'); ?></b>
+					<b><?php echo $delivery['price'] ? $delivery['price'] . ' ' . (!empty($this->controller->options['currency']) ? $this->controller->options['currency'] : LANG_CURRENCY) : (isset($delivery['price']) ? 'Бесплатно' : 'Не указана'); ?></b>
 				</span>
 			</div>
 		<?php } ?>

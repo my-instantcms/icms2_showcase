@@ -7,7 +7,7 @@ class onShowcaseBeforePrintHead extends cmsAction {
 		$template->addCSS($template->getTplFilePath('controllers/showcase/css/showcase.css', false), false);
 		$template->addJS($template->getTplFilePath('controllers/showcase/js/showcase.js', false), false);
 
-        if ($template->getLayout() === "admin" || !empty($this->options['fa'])) {
+        if (!empty($this->options['fa'])) {
             return $template;
         }
 		

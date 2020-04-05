@@ -48,6 +48,7 @@ class actionShowcaseCheckout extends cmsAction {
 			$checkout = array(
 				'goods' => $goods,
 				'price' => $summ,
+				'sale_id' => !empty($cart_fields['sale_id']) ? $cart_fields['sale_id'] : null,
 				'user_id' => $this->cms_user->id,
 				'fields' => $cart_fields,
 				'delivery' => isset($delivery) ? $delivery : null,
@@ -128,6 +129,8 @@ class actionShowcaseCheckout extends cmsAction {
 				if (cmsUser::isSessionSet($session_name)){ 
 					cmsUser::sessionUnset($session_name);
 				}
+				
+				$checkout['order_id'] = $result;
 
 				cmsUser::addSessionMessage(LANG_SUCCESS_MSG, 'success');
 				cmsEventsManager::hook('sc_after_add_checkout', array($checkout, $targets));

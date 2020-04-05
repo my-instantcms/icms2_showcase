@@ -2,6 +2,9 @@
 	$photos = cmsModel::yamlToArray($item['photo']);
 	$variant_photo = !empty($item['variant_photo']) ? cmsModel::yamlToArray($item['variant_photo']) : false;
 	$variant_attached = !empty($item['variant_attached']) ? true : false;
+	$view_pos = !empty($showcase->options['view_pos']) ? $showcase->options['view_pos'] : 'center';
+	$view_bg = !empty($showcase->options['view_bg']) ? $showcase->options['view_bg'] : '#fff';
+	$cover_size = !empty($showcase->options['cover_size']) ? $showcase->options['cover_size'] : 'original';
 	if ($photos) {
 		$this->addCSS($this->getTplFilePath('controllers/showcase/css/fields.css', false));
 		$this->addCSS($this->getTplFilePath('controllers/showcase/libs/slick/slick.min.css', false));
@@ -20,14 +23,14 @@
 			
 			<div id="sync1">
 				<?php if ($variant_photo && !$variant_attached){ ?>
-					<div class="item mgLiquidNoFill imgLiquid" style="width:100%;height:400px">
+					<div class="item mgLiquidNoFill imgLiquid miwpb_<?php html($view_pos); ?>" style="width:100%;height:400px;background-color:<?php html($view_bg); ?>">
 						<div class="sc_gallery_selector" data-src="<?php echo html_image_src($variant_photo, 'big', true); ?>"><i class="fa fa-arrows-alt" aria-hidden="true"></i></div>
 						<img data-lazy="<?php echo html_image_src($variant_photo, 'big', true); ?>" itemprop="image" alt="<?php html($item['title']); ?>" />
 					</div>
 				<?php } ?>
 				<?php foreach ($photos as $id => $img){ ?>
-					<div class="item mgLiquidNoFill imgLiquid" style="width:100%;height:400px">
-						<div class="sc_gallery_selector" data-src="<?php echo html_image_src($img, 'original', true); ?>"><i class="fa fa-arrows-alt" aria-hidden="true"></i></div>
+					<div class="item mgLiquidNoFill imgLiquid miwpb_<?php html($view_pos); ?>" style="width:100%;height:400px;background-color:<?php html($view_bg); ?>">
+						<div class="sc_gallery_selector" data-src="<?php echo html_image_src($img, $cover_size, true); ?>"><i class="fa fa-arrows-alt" aria-hidden="true"></i></div>
 						<img data-lazy="<?php echo html_image_src($img, 'big', true); ?>" itemprop="image" alt="<?php html($item['title']); ?>" />
 					</div>
 				<?php } ?>
@@ -76,7 +79,7 @@
 					$(".slick-current", event.target).imgLiquid({
 						fill: true,
 						horizontalAlign: "center",
-						verticalAlign: "top"
+						verticalAlign: "<?php html($view_pos); ?>"
 					});
 				});
 

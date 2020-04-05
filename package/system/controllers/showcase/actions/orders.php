@@ -4,6 +4,10 @@ class actionShowcaseOrders extends cmsAction {
 
     public function run($id = false, $status = 1){
 		
+		if(!$this->cms_user->is_logged){
+			cmsUser::goLogin();
+		}
+		
 		$is_manager = ($this->cms_user->id && in_array($this->cms_user->id, $this->managers) || $this->cms_user->is_admin);
 		
 		if ($id){
@@ -35,6 +39,7 @@ class actionShowcaseOrders extends cmsAction {
 			$titles = array(
 				'id' => '№ заказа',
 				'price' => 'Цена',
+				'sale_id' => 'Скидка',
 				'user_id' => 'Покупатель',
 				'fields' => 'Данные',
 				'delivery' => 'Доставка',
@@ -87,11 +92,17 @@ class actionShowcaseOrders extends cmsAction {
 			if (!empty($this->options['payment']) && $this->options['payment'] == 'system' && isset($order['fields']['payment_system'])){
 				if ($order['fields']['payment_system'] == 0 && !empty($this->options['system_pay_cash'])){
 					$system = $this->model->getCashPaySystem();
+				} else if ($order['fields']['payment_system'] == 999 && !empty($this->options['system_pay_check'])){
+					$system = $this->model->getCheckPaySystem();
 				} else {
 					$system = $this->model->
 						filterEqual('i.is_pub', 1)->
 						getData('sc_pay_systems', $order['fields']['payment_system']);
 				}
+			}
+
+			if (!empty($order['sale_id'])){
+				$sale = $this->model->getData('sc_sales', $order['sale_id']);
 			}
 
 			return $this->cms_template->render('order_view', array(
@@ -102,7 +113,8 @@ class actionShowcaseOrders extends cmsAction {
 				'hash' => isset($hash) ? $hash : '',
 				'fields' => $fields,
 				'is_manager' => $is_manager,
-				'status' => $this->getStatuses()
+				'status' => $this->getStatuses(),
+				'sale' => isset($sale) ? $sale : false,
 			));
 			
 		}

@@ -54,10 +54,14 @@
 				</div>
 			<?php } ?>
 			<div class="wd_scl_footer">
-				<div class="wd_sclf_summ">
-					<span>Итого: </span><b><?php echo $showcase->getPriceFormat($summ); ?></b>
-				</div>
-				<a class="wd_sclf_checkout" href="<?php echo href_to('showcase', 'cart', (!empty($next) ? $next : '')); ?>" rel="nofollow">Оформить заказ</a>
+				<?php 
+					$this->renderControllerChild('showcase/tpl', 'steps_footer', array(
+						'showcase' => $showcase,
+						'summ' => $summ, 
+						'next' => !empty($next) ? $next : '', 
+						'sale' => $sale, 
+					));
+				?>
 			</div>
 		<?php } else { ?>
 			<p class="sc_no_goods">

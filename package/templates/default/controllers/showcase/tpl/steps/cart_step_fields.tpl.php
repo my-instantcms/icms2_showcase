@@ -25,16 +25,27 @@
 				</div>
 			</div>
 		<?php } ?>
+		<?php if ($sale){ ?>
+			<div class="sc_cart_field sc_field_sale_id">
+				<div class="sc_cField_value">
+					<input name="sale_id" type="hidden" value="<?php html($sale['id']); ?>">
+				</div>
+			</div>
+		<?php } ?>
 	<?php } else { ?>
 		<p>Нет доступных полей</p>
 	<?php } ?>
 	<br />
-	<div class="wd_scl_footer">
-		<div class="wd_sclf_summ">
-			Итого: <b><?php echo $this->controller->getPriceFormat($summ); ?></b>
-		</div>
-		<a class="wd_sclf_checkout" rel="nofollow" onClick="scValidateCartForm(this)">Оформить заказ</a>
-	</div>
+	<?php 
+		$this->renderControllerChild('showcase/tpl', 'steps_footer', array(
+			'showcase' => $this->controller,
+			'summ' => $summ, 
+			'next' => !empty($next) ? $next : '', 
+			'sale' => $sale, 
+			'hide_href' => true, 
+			'attributes' => array('onClick' => 'scValidateCartForm(this)')
+		));
+	?>
 </div>
 <script>
 	

@@ -113,7 +113,7 @@
 									<?php $i++; ?>
 								<?php } ?>
 							<?php } else { ?>
-								<select class="sc_variant_select" data-item_id="<?php html($item['id']); ?>">
+								<select class="sc_variations_select" data-item_id="<?php html($item['id']); ?>">
 									<option>Выбрать вариант</option>
 									<?php foreach ($item['variants'] as $variant){ ?>
 										<?php
@@ -154,7 +154,7 @@
 							</a>
 						</h5>
 						<div class="miw_price_box">
-							<?php if (isset($fields['price']) && $fields['price']['is_in_list'] && $this->controller->cms_user->isInGroups($fields['price']['groups_read']) && !empty($item['price'])){ ?>
+							<?php if (isset($fields['price']) && $fields['price']['is_in_list'] && $this->controller->cms_user->isInGroups($fields['price']['groups_read'])){ ?>
 								<div class="miw_price">
 									<?php echo $fields['price']['handler']->setItem($item)->parseTeaser($item['price']); ?> 
 								</div>

@@ -1,6 +1,8 @@
 <?php
 	$this->addCSS($this->getTplFilePath('controllers/showcase/backend/css/bootstrap.min.css', false), false);
 	$this->addCSS($this->getTplFilePath('controllers/showcase/backend/css/reset.css', false), false);
+	$this->addCSS($this->getTplFilePath('controllers/showcase/css/simple-iconpicker.min.css', false));
+	$this->addJS($this->getTplFilePath('controllers/showcase/js/simple-iconpicker.min.js', false));
 	$this->addBreadcrumb('Работа с товарами', $this->href_to('goods'));
 	$this->addBreadcrumb('Управление вкладками', $this->href_to('tabs'));
 	$title = ($do == 'add') ? LANG_ADD : LANG_EDIT;
@@ -26,7 +28,12 @@
 					'action' => '',
 					'method' => 'post'
 				), $errors);
-			?>
+			?><br><br><br><br><br><br><br><br>
 		</div>
 	</div>
 </div>
+<script>
+	$(document).ready(function(){
+		$('#icon').iconpicker("#icon");
+	});
+</script>

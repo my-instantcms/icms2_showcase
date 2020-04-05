@@ -342,3 +342,37 @@ input[name="conversion[course]"] + button{height: 27px;margin-left: -1px;}
 
 body .input-prefix-suffix .prefix, body .input-prefix-suffix .suffix{padding:4px 8px 20px}
 #related_list select{width:100%}
+
+.img-thumbnail {border: none;background: none;}
+
+.app .management{margin:-20px -23px;}
+.app .management .navbar{border:none;min-height:auto}
+.app .management .navbar:before{content:none}
+.app .management .nav>li>a {padding: 0.5rem 1rem;}
+.app .fixed_toolbar{padding-left: 30px !important}
+html {font-size: inherit;}
+
+.app .input-group .form-control {
+    position: relative;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    width: 5%;
+    margin-bottom: 0;
+    height: 35px;
+	border-color: #ddd;
+}
+.app .input-group {
+	position: relative;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -ms-flex-align: stretch;
+    align-items: stretch;
+    width: 100%;
+}
+
+.app form .ft_number .input-group{
+    width: 220px;
+}
+

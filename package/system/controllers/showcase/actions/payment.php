@@ -12,7 +12,6 @@ class actionShowcasePayment extends cmsAction {
 		}
 		
 		$billing = false;
-		$userpay = false;
 		
 		if ($payment == 'system'){
 			
@@ -66,11 +65,16 @@ class actionShowcasePayment extends cmsAction {
 				return $this->cms_template->render('payment', array('error' => 'Система оплаты не выбрана'));
 			}
 
-			$system = $this->model->
-				selectOnly('i.*, p.file_view, p.file_redirect')->
-				joinLeft('sc_pay_gateways', 'p', 'p.name=i.gateway_name')->
-				filterEqual('i.is_pub', 1)->
-				getData('sc_pay_systems', $fields['payment_system']);
+			if (isset($fields['payment_system']) && $fields['payment_system'] == 999){
+				$system = $this->model->getCheckPaySystem();
+			} else {
+				$system = $this->model->
+					selectOnly('i.*, p.file_view, p.file_redirect')->
+					joinLeft('sc_pay_gateways', 'p', 'p.name=i.gateway_name')->
+					filterEqual('i.is_pub', 1)->
+					getData('sc_pay_systems', $fields['payment_system']);
+			}
+
 			if (!$system){
 				if ($transaction){
 					$transaction = $this->scUpdateTransaction($transaction, 'errors', 'Система оплаты не найдена или отключена');
@@ -141,11 +145,6 @@ class actionShowcasePayment extends cmsAction {
 			if (!$billing){
 				return $this->cms_template->renderJSON(array('error' => true, 'message' => 'Компонент биллинг не найден'));
 			}
-		} else if($payment == 'userpay'){
-			$userpay = cmsCore::isControllerExists('userpay') ? cmsCore::getController('userpay') : false;
-			if (!$userpay){
-				return $this->cms_template->renderJSON(array('error' => true, 'message' => 'Компонент UserPay не найден'));
-			}
 		}
 
 		$order = $this->model->getData('sc_checkouts', $order_id);
@@ -169,18 +168,6 @@ class actionShowcasePayment extends cmsAction {
 			$this->model->updData('sc_checkouts', $order_id, array('paid' => 2));
 			$this->sendPayNotices($order['id'], $order['price'], $order['status']);
 			return $this->cms_template->renderJSON(array('error' => false, 'message' => 'Заказ успешно оплачен'));
-		}
-		
-		if ($userpay){
-			$result = $userpay->model->decrementUserBalance($this->cms_user->id, $order['price']);
-			if ($result){
-				$userpay->model->addUserpayHistory(array('user_id' => $this->cms_user->id, 'amount' => $order['price'], 'title' => 'Оплата заказа №' . $order['id']));
-				$this->model->updData('sc_checkouts', $order_id, array('paid' => 2));
-				$this->sendPayNotices($order['id'], $order['price'], $order['status']);
-				return $this->cms_template->renderJSON(array('error' => false, 'message' => 'Заказ успешно оплачен'));
-			} else {
-				return $this->cms_template->renderJSON(array('error' => true, 'message' => 'Не удалось оплатить'));
-			}
 		}
 		
 		return $this->cms_template->renderJSON(array('error' => true, 'message' => 'Неизвестная ошибка'));

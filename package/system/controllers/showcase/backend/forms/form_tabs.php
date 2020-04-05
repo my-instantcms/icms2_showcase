@@ -23,6 +23,10 @@ class formShowcaseTabs extends cmsForm{
                             array('required')
                         )
                     )),
+					
+					new fieldString('icon', array(
+                        'title' => 'Иконка FontAwesom'
+                    )),
 
 					new fieldList('type', array(
 						'title' => 'Тип вывода',

@@ -95,7 +95,7 @@ class actionShowcaseSaveVariations extends cmsAction {
 					}
 				}
 			}
-			$html .= 'Цена: ' . $price . ' ' . (!empty($this->options['cerrency']) ? $this->options['cerrency'] : LANG_CURRENCY) . ', ';
+			$html .= 'Цена: ' . $price . ' ' . (!empty($this->options['currency']) ? $this->options['currency'] : LANG_CURRENCY) . ', ';
 			$html .= 'В наличии: ' . ($in ? $in : 0);
 			$html .= '<input type="hidden" name="variants[' . ($id ? $id : $result) . ']" value="' . ($id ? $id : $result) . '" /></div>';
 			if (!$id) { $html .= '</li>'; }

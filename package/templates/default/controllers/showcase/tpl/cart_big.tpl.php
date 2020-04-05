@@ -58,12 +58,14 @@
 					<div class="wd_scl_item_delete dsct_top_left" onClick="icms.showcase.scRemoveCartItem(this, '<?php html($id); ?>')" data-sc-tip="<?php html(LANG_DELETE); ?>?"><i class="fa fa-close"></i></div>
 				</div>
 			<?php } ?>
-			<div class="wd_scl_footer">
-				<div class="wd_sclf_summ">
-					Итого: <b><?php echo $showcase->getPriceFormat($summ); ?></b>
-				</div>
-				<a class="wd_sclf_checkout" href="<?php echo href_to('showcase', 'cart', (!empty($next) ? $next : '')); ?>" rel="nofollow">Оформить заказ</a>
-			</div>
+			<?php 
+				$this->renderControllerChild('showcase/tpl', 'steps_footer', array(
+					'showcase' => $showcase,
+					'summ' => $summ, 
+					'next' => !empty($next) ? $next : '', 
+					'sale' => $sale, 
+				));
+			?>
 		<?php } else { ?>
 			<p class="sc_no_goods">
 				<span>Нет товаров</span>

@@ -49,7 +49,7 @@ class formShowcaseCartDelivery extends cmsForm{
 					new fieldNumber('price', array(
                         'title' => 'Цена',
                         'hint' => 'Если оставить пустой, будет отображатся надпись "Не указана", 0 = Бесплатно',
-						'units' => !empty(cmsCore::getController('showcase')->options['cerrency']) ? cmsCore::getController('showcase')->options['cerrency'] : LANG_CURRENCY
+						'units' => !empty(cmsCore::getController('showcase')->options['currency']) ? cmsCore::getController('showcase')->options['currency'] : LANG_CURRENCY
                     )),
 
                 )

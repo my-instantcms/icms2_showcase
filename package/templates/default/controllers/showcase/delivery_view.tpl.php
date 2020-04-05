@@ -46,7 +46,7 @@
 				<?php } ?>
 				<tr>
 					<td class="sc_d_title">Цена</td>
-					<td class="sc_d_price"><?php echo $delivery['price'] ? $delivery['price'] . ' ' . (!empty($this->controller->options['cerrency']) ? $this->controller->options['cerrency'] : LANG_CURRENCY) : (isset($delivery['price']) ? 'Бесплатно' : 'Не указана'); ?></td>
+					<td class="sc_d_price"><?php echo $delivery['price'] ? $delivery['price'] . ' ' . (!empty($this->controller->options['currency']) ? $this->controller->options['currency'] : LANG_CURRENCY) : (isset($delivery['price']) ? 'Бесплатно' : 'Не указана'); ?></td>
 				</tr>
 			</tbody>
 		</table>

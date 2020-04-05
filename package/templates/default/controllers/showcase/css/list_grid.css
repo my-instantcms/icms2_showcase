@@ -341,7 +341,7 @@
 .miw_card__social--active .miw_meta_photo,.miw_card__social--active .miw_meta_link{top: -100px !important;color: #fff;}
 .miw_share_block .miw_meta_link:hover,.miw_share_block .miw_meta_photo:hover{background:rgba(0, 0, 0, 0.92)}
 
-.sc_variant_select{
+.sc_variations_select{
     max-width: 210px;
     background: rgba(255, 255, 255, 0.82);
     border: 1px solid #999;
@@ -351,10 +351,10 @@
 	padding: 0 3px;
 	font-family: serif;
 }
-
-.sc_variant_select:hover{
+.sc_variations_select:hover{
     background: #fff;
 }
+.sc_variations_select.sc_error_empty{border-color: red;color: red;}
 
 @-moz-document url-prefix(){
 	.showcase_list_grid .my_default_list_item .my_item_wrap .miw_description .miw_title{white-space:normal;height: 26px;}

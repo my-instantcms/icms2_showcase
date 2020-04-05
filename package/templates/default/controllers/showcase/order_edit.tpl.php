@@ -8,23 +8,21 @@
 		$this->addBreadcrumb($this->controller->cms_user->nickname, href_to('users', $order['user_id']));
 		$this->addBreadcrumb('Мои заказы', href_to('users', $order['user_id'], 'orders'));
 	}
-    $this->addBreadcrumb('Заказ №' . $order['id']);
-    $this->setPageTitle('Заказ №' . $order['id']);
+    $this->addBreadcrumb('Заказ №' . $order['id'], $this->href_to('orders', array($order['id'], $order['status'])));
+    $this->addBreadcrumb(LANG_EDIT);
+    $this->setPageTitle(LANG_EDIT);
 	$this->addCSS($this->getTplFilePath('controllers/showcase/css/tab.css', false));
 	$pay = false;
+	$this->addTplJSNameFromContext([
+    'jquery-ui',
+    'i18n/jquery-ui/'.cmsCore::getLanguageName()
+    ]);
+	$this->addTplCSSNameFromContext('jquery-ui');
 ?>
-<?php if ($is_manager){ ?>
-	<div class="sc_order_view_btns" style="display:none">
-		<a href="<?php echo href_to('showcase', 'order_edit', $order['id']); ?>"><?php html(LANG_EDIT); ?></a>
-		<a href="<?php echo href_to('showcase', 'order_delete', $order['id']); ?>"><?php html(LANG_DELETE); ?></a>
-	</div>
-<?php } ?>
-<table class="sc_order_view">
+<table class="sc_order_view sc_order_edit">
 	<tbody>
 		<?php foreach ($order as $name => $val){ ?>
-		
-			<?php if (!isset($val)){ continue; } ?>
-		
+			<?php if ($name == 'id' || $name == 'shop_id' || $name == 'coupon' || $name == 'extra'){ continue; } ?>
 			<tr class="sc_ol_item">
 				<td class="sc_oli_title"><?php echo !empty($titles[$name]) ? $titles[$name] : $name; ?></td>
 				<td class="sc_oli_val">
@@ -32,7 +30,7 @@
 						<table>
 							<tbody>
 								<?php foreach ($val as $key => $v){ ?>
-									<?php if ($key == 'agreement' || !$v || empty($cart_fields[$key])){ continue; } ?>
+									<?php if ($key == 'agreement' || $key == 'sale_id' || $key == 'payment_system'){ continue; } ?>
 									<tr>
 										<td><b><?php html($cart_fields[$key]['title']); ?></b></td>
 										<td class="order_fields_td"><?php 
@@ -58,27 +56,26 @@
 								<?php } ?>
 							</tbody>
 						</table>
-					<?php } else if ($name == 'delivery'){ ?>
+					<?php } else if ($name == 'delivery' && $deliverys){ ?>
 						<?php
 							$val = cmsModel::yamlToArray($val);
+							echo html_select($name, $deliverys, $val['id']);
 							if ($val['type'] == 'courier'){
 								$status[3] = 'Доставляется';
 							} else {
 								$status[3] = 'Ожидает получения';
 							}
 						?>
-						<?php echo ($val['type'] == 'courier') ? 'Курьерская доставка' : 'Самовывоз'; ?>: 
-						<a href="<?php html($val['slug']); ?>" target="_blank"><?php html($val['title']); ?></a> - 
-						<b style="color:red"><?php echo $val['price'] ? $this->controller->getPriceFormat($val['price']) : (isset($val['price']) ? 'Бесплатно' : 'Не указана'); ?></b>
 					<?php } else if ($name == 'price'){ ?>
-						<strong style="color:red"><?php echo $this->controller->getPriceFormat($val); ?></strong>
-					<?php } else if ($name == 'sale_id' && $sale){ ?>
-						<b style="color:green"><?php html($sale['title']); ?></b>
+						<input type="number" class="price_input" placeholder="<?php echo !empty($titles[$name]) ? $titles[$name] : $name; ?>" value="<?php html($val); ?>" />
+						<span><?php echo !empty($this->controller->options['currency']) ? $this->controller->options['currency'] : LANG_CURRENCY; ?></span>
+					<?php } else if ($name == 'sale_id'){ ?>
+						<?php echo html_select($name, array(0 => LANG_SELECT) + array_collection_to_list($sales, 'id', 'title'), $val); ?>
 					<?php } else if ($name == 'user_id'){ ?>
 						<?php if (empty($order['user_id'])){ ?>
-							<?php echo !empty($order['fields']['name']) ? $order['fields']['name'] : LANG_GUEST; ?>
+							<input type="text" value="<?php echo !empty($order['fields']['name']) ? $order['fields']['name'] : LANG_GUEST; ?>" />
 						<?php } else { ?>
-							<a href="<?php echo href_to('users', $val); ?>" target="_blank"><?php echo $is_manager ? 'Открыть профиль' : $this->controller->cms_user->nickname; ?></a>
+							<?php echo html_select($name, array(0 => LANG_SELECT) + array_collection_to_list($users, 'id', 'nickname'), $val); ?>
 						<?php } ?>
 					<?php } else if ($name == 'status'){ ?>
 						<?php if ($is_manager){ ?>
@@ -87,7 +84,17 @@
 							<?php html($status[$val]); ?>
 						<?php } ?>
 					<?php } else if ($name == 'date'){ ?>
-						<?php echo lang_date(date('j F Y H:i', strtotime($val))); ?>
+						<?php
+							if(!$val){
+								$hours = 0;
+								$mins = 0;
+							} else {
+								list($hours, $mins) = explode(':', date('H:i', strtotime($val)));
+							}
+						?>
+						<?php echo html_datepicker($name . '[date]', ($val ? date('d.m.Y', strtotime($val)) : ''), array('id'=>$name), array('maxDate'=>'0')); ?>
+						<?php echo html_select_range($name . '[hours]', 0, 23, 1, true, $hours); ?> :
+						<?php echo html_select_range($name . '[mins]', 0, 59, 1, true, $mins); ?>
 					<?php } else if ($name == 'paid' && $val){ ?>
 						<?php if ($is_manager){ ?>
 							<?php $pay = ($val == 1) ? ((isset($order['fields']['payment_system']) && $order['fields']['payment_system'] == 0) ? false : true) : false; ?>
@@ -104,20 +111,23 @@
 							?>
 						<?php } ?>
 					<?php } else if ($name == 'items'){ ?>
-						<?php foreach ($val as $index => $good){ ?>
-							<div class="sc_order_view_goods">
-								<?php if (!empty($good['artikul'])){ ?>
-									<span data-sc-tip="Артикул"><?php html($good['artikul']); ?></span> 
-								<?php } ?>
-								<span><a href="<?php echo href_to($good['ctype_name'], $good['slug'] . '.html'); ?>" target="_blank"><?php echo !empty($good['title']) ? $good['title'] : '[Неизвестно]'; ?></a></span>
-								<span data-sc-tip="Количество">x<?php echo !empty($good['qty']) ? $good['qty'] : 1; ?></span>
-								<span data-sc-tip="Цена" class="sc_gi_price"><?php echo $this->controller->getPriceFormat((!empty($good['price']) ? $good['price'] : 0)); ?></span>
-								<?php 
-									$extra_fields = cmsEventsManager::hookAll("sc_html_cart_fields", array($this->controller->ctype_name, $good, $fields));
-									if ($extra_fields) { echo html_each($extra_fields); }
-								?>
-							</div>
-						<?php } ?>
+						<div class="sc_order_view_goods">
+							<?php foreach ($val as $index => $good){ ?>
+								<div class="sc_order_view_good">
+									<?php echo html_select($name . '[' . $index . ']', array_collection_to_list($goods, 'id', 'title'), $good['id'], array('id' => $name . '_' . $index)); ?>
+									<?php echo html_select($name . '[' . $index . '][variant]', array_collection_to_list($variants, 'id', 'title'), $good['variant_id'], array('id' => $name . '_variant_' . $index)); ?>
+									<a href="#" class="scovg_delete">X</a>
+								</div>
+								<script type="text/javascript">
+									$(document).ready(function() {
+										$("#<?php echo $name . '_' . $index; ?>").change(function () {
+											icms.forms.updateChildList('<?php echo $name . '_variant_' . $index; ?>', '<?php echo href_to("showcase", "get_ajax_variants"); ?>', $(this).val(), "<?php html($good['variant_id']); ?>");
+										}).change();
+									});
+								</script>
+							<?php } ?>
+							<a href="#" class="scovg_add_goods">Добавить товар</a>
+						</div>
 					<?php } else { ?>
 						<?php html($val); ?>
 					<?php } ?>
@@ -126,16 +136,7 @@
 		<?php } ?>
 		<tr>
 			<td colspan="2" class="sc_order_btns">
-				<?php if ($is_manager){ ?>
-					<a href="<?php echo $this->href_to('print', $order['id']); ?>" target="_blank"><i class="fa fa-print"></i> Распечатать</a>
-				<?php } ?>
-				<?php if ($pay && !empty($this->controller->options['payment']) && $this->controller->options['payment'] != 'off'){ ?>
-					<?php if ($this->controller->options['payment'] == 'system'){ ?>
-						<a href="<?php echo href_to('showcase', 'payment', array($order['id'] . ($hash ? '?access=' . $hash : ''))); ?>"><i class="fa fa-money"></i> Оплатить <?php echo $this->controller->getPriceFormat($order['price']); ?></a>
-					<?php } else { ?>
-						<a href="javascript:void(0);" onclick="scOrderPay(this)" class="sc_payment_btn" data-sc-tip="Ваш баланс: <?php echo @$this->controller->cms_user->balance ? $this->controller->cms_user->balance : 0; ?>"><i class="fa fa-money"></i> Оплатить <?php echo $this->controller->getPriceFormat($order['price']); ?></a>
-					<?php } ?>
-				<?php } ?>
+				<a href="#"><i class="fa fa-save"></i> <?php html(LANG_SAVE); ?></a>
 			</td>
 		</tr>
 	</tbody>

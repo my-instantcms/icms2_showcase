@@ -20,7 +20,11 @@ class actionShowcaseAddToCart extends cmsAction {
 		
 		$data = $this->request->getAll();
 		if ($data){
-			if (cmsUser::isSessionSet($session_name)){ 
+			if (cmsUser::isSessionSet($session_name)){
+				$item = cmsUser::sessionGet($session_name);
+				if (!empty($item['qty'])){
+					$data['qty'] = ($item['qty'] + $data['qty']); /* если повторно нажали кнопку В корзину */
+				}
 				cmsUser::sessionUnset($session_name);
 			}
 			cmsUser::sessionSet($session_name, $data);

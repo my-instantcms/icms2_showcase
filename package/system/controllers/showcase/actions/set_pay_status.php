@@ -17,6 +17,7 @@ class actionShowcaseSetPayStatus extends cmsAction {
         $result = $this->model->updData('sc_checkouts', $order_id, array('paid' => $status_id));
 		if ($result){
 			
+			cmsEventsManager::hook('sc_pay_status', array($item, $status_id));
 
 			if (!empty($this->options['log'])){
 				$author = '<a href="' . href_to('users', $this->cms_user->id) . '" target="_blank">' . $this->cms_user->nickname . '</a>';

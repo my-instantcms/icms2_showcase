@@ -5,7 +5,6 @@ class formShowcaseOptions extends cmsForm {
     public function init() {
 		
 		$billing_text = cmsCore::isControllerExists('billing') ? '' : ' (не найден)';
-		$userpay_text = cmsCore::isControllerExists('userpay') ? '' : ' (не найден)';
 		$model = cmsCore::getModel('showcase');
 		$payment_systems = $model->filterEqual('i.is_pub', 1)->getDataCount('sc_pay_systems');
 
@@ -33,12 +32,12 @@ class formShowcaseOptions extends cmsForm {
                         }
 					)),
 					
-					new fieldString('cerrency', array(
+					new fieldString('currency', array(
 						'title' => 'Валюта',
 						'default' => LANG_CURRENCY
 					)),
 
-					new fieldString('cerrency_iso', array(
+					new fieldString('currency_iso', array(
 						'title' => 'Валюта в ISO формате',
 						'hint' => 'Например RUB, USD, UAH, EUR. Список всех валют <a href="https://en.wikipedia.org/wiki/ISO_4217#Active_codes" target="_blank">здесь</a>',
 						'default' => 'RUB'
@@ -55,13 +54,12 @@ class formShowcaseOptions extends cmsForm {
 					
 					new fieldList('payment', array(
 						'title' => 'Способ оплаты',
-						'hint' => 'Настроить <a href="' . href_to('admin', 'controllers', array('edit', 'showcase', 'pay_systems')) . '">систему оплаты</a>. Купить компонент <a href="https://addons.instantcms.ru/addons/billing2.html" target="_blank">Биллинг</a>. Скачать компонент <a href="https://addons.instantcms.ru/addons/userpay.html" target="_blank">UserPay</a>',
+						'hint' => 'Настроить <a href="' . href_to('admin', 'controllers', array('edit', 'showcase', 'pay_systems')) . '">систему оплаты</a>. Купить компонент <a href="https://addons.instantcms.ru/addons/billing2.html" target="_blank">Биллинг</a>.',
 						'default' => ($payment_systems ? 'system' : 'off'),
 						'items' => array(
 							'off' => 'Не использовать',
 							'system' => 'Стандартный (настроенных систем оплаты: ' . $payment_systems . ')',
-							'billing' => 'Платный компонент Биллинг' . $billing_text,
-							'userpay' => 'Бесплатный компонент UserPay' . $userpay_text,
+							'billing' => 'Платный компонент Биллинг' . $billing_text
 						)
 					)),
 					
@@ -151,7 +149,7 @@ class formShowcaseOptions extends cmsForm {
                 'childs' => array(
 
                     new fieldList('list_pos', array(
-                        'title' => 'Картинка в блоке списка',
+                        'title' => 'Стиль отображения фото товара в списке',
                         'hint' => 'Стиль отображения картинки, на страницах списка товаров',
                         'default' => 'center',
 						'items' => array(
@@ -180,6 +178,34 @@ class formShowcaseOptions extends cmsForm {
                 'type' => 'fieldset',
                 'title' => 'Дизайн страниц товара',
                 'childs' => array(
+				
+					new fieldList('view_pos', array(
+                        'title' => 'Стиль отображения фото товара',
+                        'hint' => 'Стиль отображения картинки, на страницах просмотр товаров',
+                        'default' => 'center',
+						'items' => array(
+							'center' => 'Выравнивание по центру',
+							'top' => 'Выравнивание сверху',
+							'bottom' => 'Выравнивание снизу',
+							'contain' => 'Выравнивание по размеру блока',
+						)
+                    )),
+					
+					new fieldList('cover_size', array(
+                        'title' => 'Размер фото в полноэкранном виде',
+						'hint' => 'При щелчке на иконку, какой пресет фото открывать?',
+                        'default' => 'original',
+                        'generator' => function (){
+                            $presets = cmsCore::getModel('images')->getPresetsList();
+                            $presets['original'] = LANG_PARSER_IMAGE_SIZE_ORIGINAL;
+                            return $presets;
+                        }
+                    )),
+					
+					new fieldColor('view_bg', array(
+						'title' => 'Фон блока фотографии',
+						'default' => '#ffffff'
+					)),
 
                     new fieldCheckbox('hide_artikul', array(
                         'title' => 'Не показать артикул'

@@ -43,6 +43,7 @@
 
                 <a href="<?php echo $url; ?>">
 					<i class="fa <?php html($font_icon); ?>"></i> 
+					<?php /* ?><img src="/templates/default/controllers/showcase/img/icons/<?php html($item['sc_icon']); ?>" /> <?php */ ?>
 					<?php if (!empty($item['goods_count'])){ ?>
 						<span class="mm-counter"><?php html($item['goods_count']); ?></span>
 					<?php } ?>

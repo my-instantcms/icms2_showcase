@@ -16,6 +16,8 @@ class actionShowcaseSetOrderStatus extends cmsAction {
 
         $result = $this->model->updData('sc_checkouts', $order_id, array('status' => $status_id));
 		if ($result){
+			
+			cmsEventsManager::hook('sc_order_status', array($item, $status_id));
 
 			if (!empty($item['fields'])){
 				$status = $this->getStatuses($status_id);
@@ -30,15 +32,17 @@ class actionShowcaseSetOrderStatus extends cmsAction {
 					// }
 				// }
 				$cart_fields = cmsModel::yamlToArray($item['fields']);
-				$to = array('email' => $cart_fields['email'], 'name' => $cart_fields['name']);
-				$hash = !empty($item['user_id']) ? '' : '?access=' . hash("adler32", $order_id . $cart_fields['email']);
-				$mail_data = array(
-					'nickname' => $cart_fields['name'],
-					'order_id' => $order_id,
-					'status' => $status,
-					'url' => href_to_abs('showcase', 'orders', array($order_id, 1)) . $hash
-				);
-				cmsCore::getController('messages')->sendEmail($to, array('name' => 'sc_order_status'), $mail_data);
+				if (!empty($cart_fields['email'])){
+					$to = array('email' => $cart_fields['email'], 'name' => $cart_fields['name']);
+					$hash = !empty($item['user_id']) ? '' : '?access=' . hash("adler32", $order_id . $cart_fields['email']);
+					$mail_data = array(
+						'nickname' => $cart_fields['name'],
+						'order_id' => $order_id,
+						'status' => $status,
+						'url' => href_to_abs('showcase', 'orders', array($order_id, 1)) . $hash
+					);
+					cmsCore::getController('messages')->sendEmail($to, array('name' => 'sc_order_status'), $mail_data);
+				}
 			}
 			
 

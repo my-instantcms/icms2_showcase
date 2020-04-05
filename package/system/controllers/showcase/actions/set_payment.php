@@ -18,7 +18,7 @@ class actionShowcaseSetPayment extends cmsAction {
 		if ($this->request->has('id')){
 			if(!$this->request->isAjax()) { cmsCore::error404(); }
 			$id = $this->request->get('id', 0);
-			if (!$id && empty($this->options['system_pay_cash'])){
+			if (!$id && empty($this->options['system_pay_cash']) && empty($this->options['system_pay_check'])){
 				return $this->cms_template->renderJSON(array('error' => true, 'message' => 'Неизвестные ID')); 
 			}
 				
@@ -31,12 +31,16 @@ class actionShowcaseSetPayment extends cmsAction {
 			if ($system_id && $system_id == $id){ return $this->cms_template->renderJSON(array('error' => true)); }
 
 			$system = $id ? $this->model->filterEqual('i.is_pub', 1)->getData('sc_pay_systems', $id) : false;
-			if (!$system && empty($this->options['system_pay_cash'])){
+			if (!$system && empty($this->options['system_pay_cash']) && empty($this->options['system_pay_check'])){
 				return $this->cms_template->renderJSON(array('error' => true, 'message' => 'Система оплаты не найдена или выключена'));
 			}
 			
 			if (!$system){
-				$system = $this->model->getCashPaySystem();
+				if ($system_id == 999){
+					$system = $this->model->getCheckPaySystem();
+				} else {
+					$system = $this->model->getCashPaySystem();
+				}
 			}
 
 			if (!$fields){ 
@@ -56,12 +60,17 @@ class actionShowcaseSetPayment extends cmsAction {
 			$cash_systems = $this->model->getCashPaySystem();
 		}
 		
+		if (!empty($this->options['system_pay_check'])){
+			$check_systems = $this->model->getCheckPaySystem();
+		}
+		
 		$systems = $this->model->
 			filterEqual('i.is_pub', 1)->
 			orderBy('i.ordering', 'ASC')->
 			getData('sc_pay_systems');
 			
-		$systems = !empty($cash_systems) ? array_merge(array($cash_systems), $systems) : $systems;
+		$systems = !empty($check_systems) ? array_merge(array($check_systems), ($systems ? $systems : array())) : $systems;
+		$systems = !empty($cash_systems) ? array_merge(array($cash_systems), ($systems ? $systems : array())) : $systems;
 
 		$this->cms_template->render('set_payment', array(
 			'order' => $order,

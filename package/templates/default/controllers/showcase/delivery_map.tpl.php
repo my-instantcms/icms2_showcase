@@ -13,7 +13,7 @@
 			
 			<?php if ($pickup){ ?>
 				myPlacemark = new ymaps.Placemark([<?php echo $value; ?>], {
-					balloonContentHeader: "Цена: <?php echo $pickup['price'] . ' ' . (!empty($this->controller->options['cerrency']) ? $this->controller->options['cerrency'] : LANG_CURRENCY); ?>",
+					balloonContentHeader: "Цена: <?php echo $pickup['price'] . ' ' . (!empty($this->controller->options['currency']) ? $this->controller->options['currency'] : LANG_CURRENCY); ?>",
 					balloonContentBody: "<?php echo addslashes($pickup['title']); ?>",
 					balloonContentFooter: "<?php html($pickup['pickup_address']); ?>",
 					hintContent: "Здесь"
@@ -77,7 +77,7 @@
 					position: center,
 					map: map
 				});
-				var content = '<div style="color:#000"><strong>Цена: <?php echo addslashes($pickup['price'] . ' ' . (!empty($this->controller->options['cerrency']) ? $this->controller->options['cerrency'] : LANG_CURRENCY)); ?></strong></div><div style="color:#333"><?php html($pickup['title']); ?></div><div style="color:#333"><?php html($pickup['pickup_address']); ?></div>';
+				var content = '<div style="color:#000"><strong>Цена: <?php echo addslashes($pickup['price'] . ' ' . (!empty($this->controller->options['currency']) ? $this->controller->options['currency'] : LANG_CURRENCY)); ?></strong></div><div style="color:#333"><?php html($pickup['title']); ?></div><div style="color:#333"><?php html($pickup['pickup_address']); ?></div>';
 				var infowindow = new google.maps.InfoWindow({
 					content: content
 				});

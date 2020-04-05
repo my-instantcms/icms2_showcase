@@ -21,7 +21,7 @@
 							<?php if (!empty($courier['hint'])){ ?><p><?php html($courier['hint']); ?></p><?php } ?>
 						</div>
 						<div class="sc_delivery_price">
-							<?php echo $courier['price'] ? $courier['price'] . ' ' . (!empty($this->controller->options['cerrency']) ? $this->controller->options['cerrency'] : LANG_CURRENCY) : (isset($courier['price']) ? 'Бесплатно' : 'Не указана'); ?>
+							<?php echo $courier['price'] ? $courier['price'] . ' ' . (!empty($this->controller->options['currency']) ? $this->controller->options['currency'] : LANG_CURRENCY) : (isset($courier['price']) ? 'Бесплатно' : 'Не указана'); ?>
 						</div>
 					</a>
 				<?php } ?>
@@ -47,7 +47,7 @@
 							<?php } ?>
 						</div>
 						<div class="sc_delivery_price">
-							<?php echo $pickup['price'] ? $pickup['price'] . ' ' . (!empty($this->controller->options['cerrency']) ? $this->controller->options['cerrency'] : LANG_CURRENCY) : (isset($pickup['price']) ? 'Бесплатно' : 'Не указана'); ?>
+							<?php echo $pickup['price'] ? $pickup['price'] . ' ' . (!empty($this->controller->options['currency']) ? $this->controller->options['currency'] : LANG_CURRENCY) : (isset($pickup['price']) ? 'Бесплатно' : 'Не указана'); ?>
 						</div>
 					</div>
 				<?php } ?>

@@ -3,14 +3,14 @@
 class fieldScprice extends cmsFormField {
 
     public $title       = '[showcase] Цена';
-    public $sql         = 'float NULL DEFAULT NULL';
+    public $sql         = 'DECIMAL(19, 2) NULL DEFAULT NULL';
     public $filter_type = 'int';
     public $showcase = false;
 	public $units = LANG_CURRENCY;
 	
 	public function __construct($name, $options = null) {		
         parent::__construct($name, $options);
-		$this->units = !empty(cmsCore::getController('showcase')->options['cerrency']) ? cmsCore::getController('showcase')->options['cerrency'] : LANG_CURRENCY;
+		$this->units = !empty(cmsCore::getController('showcase')->options['currency']) ? cmsCore::getController('showcase')->options['currency'] : LANG_CURRENCY;
     }
 
     public function getOptions(){
@@ -32,24 +32,16 @@ class fieldScprice extends cmsFormField {
 
     public function parse($value){
 
-        if ($value) {
-			$tpl = cmsTemplate::getInstance();
-			ob_start();
-			include($tpl->getTemplateFileName('controllers/showcase/tpl/price'));
-			return ob_get_clean();
-		}
-		
-		return false;
+		$tpl = cmsTemplate::getInstance();
+		ob_start();
+		include($tpl->getTemplateFileName('controllers/showcase/tpl/price'));
+		return ob_get_clean();
+
     }
 
 	public function parseTeaser($value){
-        
-        if ($value) {
-			$value = !empty($this->item['sale']) ? $this->item['sale'] : $value;
-			return cmsCore::getController('showcase')->getPriceFormat($value);
-		}
-		
-		return false;
+		$value = !empty($this->item['sale']) ? $this->item['sale'] : $value;
+		return cmsCore::getController('showcase')->getPriceFormat($value);
     }
 	
 	public function getStringValue($value){
@@ -63,6 +55,13 @@ class fieldScprice extends cmsFormField {
 			}
 			if (!empty($value['to'])){
 				$string .= LANG_TO . ' ' . $value['to'];
+			}
+		} else {
+			$showcase = cmsCore::getController('showcase');
+			if (!empty($this->item['sale'])){
+				$string = $showcase->getPriceFormat($this->item['sale'], false, false);
+			} else {
+				$string = $showcase->getPriceFormat($value, false, false);
 			}
 		}
 
@@ -131,6 +130,7 @@ class fieldScprice extends cmsFormField {
     public function getInput($value){
 
         $this->data['units'] = $this->units;
+        $this->data['prefix'] = '';
 
         return cmsTemplate::getInstance()->renderFormField('number', array(
             'field' => $this,

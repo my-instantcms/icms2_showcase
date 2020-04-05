@@ -22,6 +22,11 @@
 				<i class="glyphicon glyphicon-plane"></i>
 				Служба доставки
 			</a>
+			<a class="sc_ac_btns" href="<?php echo $this->href_to('cupon_sales'); ?>">
+				<i class="glyphicon glyphicon-gift"></i>
+				Купоны и скидки
+				<span>new</span>
+			</a>
 			<a class="sc_ac_btns" href="<?php echo $this->href_to('pay_systems'); ?>">
 				<i class="glyphicon glyphicon-piggy-bank"></i>
 				Система оплаты

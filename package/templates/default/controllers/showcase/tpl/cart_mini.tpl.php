@@ -50,9 +50,12 @@
 			<?php } ?>
 			<div class="wd_scl_footer">
 				<div class="wd_sclf_summ">
-					<b><?php echo $showcase->getPriceFormat($summ); ?></b>
+					<b>
+						<?php echo !empty($sale) ? '<s data-sc-tip="' . $sale['title'] . '">' . $showcase->getPriceFormat($sale['old_summ'], 0, 0) . '</s> ' : ''; ?>
+						<?php echo $showcase->getPriceFormat((isset($summ) ? $summ : 0)); ?>
+					</b>
 				</div>
-				<a class="wd_sclf_checkout" href="<?php echo href_to('showcase', 'cart', (!empty($next) ? $next : '')) ?>" rel="nofollow">Оформить</a>
+				<a class="wd_sclf_checkout" href="<?php echo href_to('showcase', 'cart', (!empty($next) ? $next : '')) ?>" rel="nofollow"><?php html(LANG_CONTINUE); ?></a>
 			</div>
 		<?php } else { ?>
 			<p class="sc_no_goods">

@@ -1,5 +1,6 @@
 <?php
 	$user = cmsUser::getInstance();
+	$showcase = cmsCore::getController('showcase');
 	$this->addCSS($this->getTplFilePath('controllers/showcase/css/item_view.css', false));
 	$allFields = $fields;
 	$myFields = array();
@@ -93,20 +94,16 @@
 					'item' => $item,
 					'photo' => $fields['photo'],
 					'user' => $user,
-					'ctype_name' => $ctype['name']
+					'ctype_name' => $ctype['name'],
+					'showcase' => $showcase
 				));
 				unset($fields['photo']);
 			}
 		?>
 		
 		<div class="sc_right_box" id="item_<?php html($item['id']); ?>">
-			<?php if (!empty($item['price']) && $fields['price']['is_in_item'] && $user->isInGroups($fields['price']['groups_read'])){ ?>
-				<div class="field ft_<?php echo $fields['price']['type']; ?> f_<?php echo $fields['price']['name']; ?> <?php echo $fields['price']['options']['wrap_type']; ?>_field" <?php if($fields['price']['options']['wrap_width']){ ?> style="width: <?php echo $fields['price']['options']['wrap_width']; ?>;"<?php } ?>>
-					<?php if ($fields['price']['options']['label_in_item'] != 'none') { ?>
-						<div class="title_<?php echo $fields['price']['options']['label_in_item']; ?>"><?php html($fields['price']['title']); ?>: </div>
-					<?php } ?>
-					<div class="value"><?php echo $fields['price']['handler']->setItem($item)->parse($item['price']); ?></div>
-				</div>
+			<?php if ($fields['price']['is_in_item'] && $user->isInGroups($fields['price']['groups_read'])){ ?>
+				<?php echo $fields['price']['handler']->setItem($item)->parse($item['price']); ?>
 				<?php unset($fields['price']); ?>
 			<?php } ?>
 			<?php if (!empty($item['variations'])){ ?>
@@ -128,24 +125,26 @@
 			<div class="sc_right_footer">
 				<script>
 					var cart_data = {};
+					var preorder_data = {};
 					<?php if (!empty($ctype['showcase']['price_format']) && $ctype['showcase']['price_format'] == 2){ ?>
 						icms.showcase.price_round = false;
 					<?php } ?>
 				</script>
-				<div class="sc_buy_qty" data-tc-tip="Количество">
-					<div class="sc_qty_count"><input type="text" value="<?php echo ((isset($item['in_stock']) && $item['in_stock'] > 0) || (!empty($item['variant_in']) && $item['variant_in'] != 'none')) ? 1 : 0; ?>"></div>
-					<button class="sc_qty_btn_plus" onClick="icms.showcase.scSetQty(this, '<?php html($item['id']); ?>', false)" <?php if (empty($ctype['showcase']['off_inctock'])  && isset($item['in_stock']) || empty($ctype['showcase']['off_inctock']) && !empty($item['variant_in'])){ ?>data-max="<?php echo (!empty($item['variant_in']) && $item['variant_in'] != 'none') ? $item['variant_in'] : (isset($item['in_stock']) ? $item['in_stock'] : 0); ?>"<?php } ?>><i class="fa fa-plus fa-fw"></i></button>
-					<button class="sc_qty_btn_minus" onClick="icms.showcase.scSetQty(this, '<?php html($item['id']); ?>', false)"><i class="fa fa-minus fa-fw"></i></button>
-				</div>
-				<?php if (!empty($item['price'])){ ?>
-					<button class="sc_cart_btn" data-item_id="<?php html($item['id']); ?>" data-variant="<?php echo !empty($item['seted_variant']) ? $item['seted_variant'] : 0; ?>">
-						<svg class="sc_cart_btn_swiper" width="202" height="48px" version="1.1" xmlns="http://www.w3.org/2000/svg">
-							<path d="M 0 0 L 202 0 L 192 48 L 0 48" stroke="none"></path>
-						</svg>
-					  <span class="sc_cart_btn_icon"><i class="fa fa-shopping-cart fa-fw"></i></span>
-					  <span class="sc_cart_btn_label">В корзину</span>
-					</button>
+				<?php if (!empty($fields['in_stock']) && !empty($fields['in_stock']['is_in_item'])){ ?>
+					<div class="sc_buy_qty" data-tc-tip="Количество">
+						<div class="sc_qty_count"><input type="text" value="<?php echo ((isset($item['in_stock']) && $item['in_stock'] > 0) || (!empty($item['variant_in']) && $item['variant_in'] != 'none')) ? 1 : 0; ?>"></div>
+						<button class="sc_qty_btn_plus" onClick="icms.showcase.scSetQty(this, '<?php html($item['id']); ?>', false)" <?php if (empty($ctype['showcase']['off_inctock'])  && isset($item['in_stock']) || empty($ctype['showcase']['off_inctock']) && !empty($item['variant_in'])){ ?>data-max="<?php echo (!empty($item['variant_in']) && $item['variant_in'] != 'none') ? $item['variant_in'] : (isset($item['in_stock']) ? $item['in_stock'] : 0); ?>"<?php } ?>><i class="fa fa-plus fa-fw"></i></button>
+						<button class="sc_qty_btn_minus" onClick="icms.showcase.scSetQty(this, '<?php html($item['id']); ?>', false)"><i class="fa fa-minus fa-fw"></i></button>
+					</div>
 				<?php } ?>
+				<?php 
+					$this->renderControllerChild('showcase', 'tpl/addToCart', array(
+						'item' => $item,
+						'fields' => $fields,
+						'user' => $user,
+						'ctype' => $ctype
+					));
+				?>
 				<?php if ($position_1){ ?>
 					<?php foreach ($position_1 as $p1_name => $p1_field){ ?>
 						<?php if ((empty($item[$p1_name]) || empty($p1_field['html'])) && $item[$p1_name] !== '0' || !$p1_field['is_in_item']){ continue; } ?>
@@ -212,10 +211,17 @@
 	<?php if ($tabs_list){ ?>
 		<div class="widget_tabbed">
 			<div class="tabs">
-				<ul>
+				<ul class="tab_count_<?php echo count($tabs_list); ?>">
 					<?php foreach ($tabs_list as $tlID => $tlTab){ ?>
 						<li class="tab">
-							<a <?php if ($tabs_active == $tlID){ ?>class="active"<?php } ?> data-id="<?php html($tlID); ?>"><?php html($tlTab['title']); ?></a>
+							<a <?php if ($tabs_active == $tlID){ ?>class="active"<?php } ?> data-id="<?php html($tlID); ?>">
+								<?php if (!empty($tlTab['icon'])){ ?>
+									<i class="fa <?php html($tlTab['icon']); ?>"></i> 
+									<span><?php echo $tlTab['title']; ?></span>
+								<?php } else { ?>
+									<?php echo $tlTab['title']; ?>
+								<?php } ?>
+							</a>
 						</li>
 					<?php } ?>
 				</ul>

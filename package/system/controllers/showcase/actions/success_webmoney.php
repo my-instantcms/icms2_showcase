@@ -76,6 +76,7 @@ class actionShowcaseSuccessWebmoney extends cmsAction {
 		
 		if ($order_id && !$errors && empty($system['is_test'])){
 			$this->model->updData('sc_checkouts', $order_id, array('paid' => 2));
+			cmsEventsManager::hook('sc_success_paid', array($order, $system, $transaction));
 		}
 		if (!empty($order) && empty($system['is_test'])){
 			$this->sendPayNotices($order['id'], $order['price'], $order['status']);

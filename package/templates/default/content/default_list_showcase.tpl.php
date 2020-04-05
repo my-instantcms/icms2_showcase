@@ -39,6 +39,11 @@
 	<script src="//yastatic.net/share2/share.js"></script>
 	
 	<?php $this->block('top_showcase_list'); ?>
+	
+	<script>
+		var cart_data = {};
+		var preorder_data = {};
+	</script>
 
 	<div class="showcase_list_grid <?php echo $ctype['name']; ?>_list_grid" onload="icms.showcase.bulidListGrid(this)">
 		<?php foreach($items as $item){ ?>
@@ -125,8 +130,8 @@
 									<?php $i++; ?>
 								<?php } ?>
 							<?php } else { ?>
-								<select class="sc_variant_select" data-item_id="<?php html($item['id']); ?>">
-									<option>Выбрать вариант</option>
+								<select class="sc_variations_select" data-item_id="<?php html($item['id']); ?>">
+									<option value="0">Выбрать вариант</option>
 									<?php foreach ($item['variants'] as $variant){ ?>
 										<?php
 											if (empty($variant['in']) || $variant['in'] == 'none' || (int)$variant['in'] < 1){ continue; }
@@ -135,7 +140,7 @@
 											}
 											$photo = !empty($variant['photo']) ? html_image_src($variant['photo'], 'big', true) : 0;
 										?>
-										<option data-title="<?php html($variant['title']); ?>" <?php if (isset($fields['price']) && $fields['price']['is_in_list'] && $this->controller->cms_user->isInGroups($fields['price']['groups_read']) && !empty($variant['price'])){ ?>data-price="<?php echo $showcase->getPriceFormat($variant['price']); ?>"<?php } ?> <?php if (isset($fields['sale']) && $fields['sale']['is_in_list'] && $this->controller->cms_user->isInGroups($fields['sale']['groups_read']) && !empty($variant['sale'])){ ?>data-sale="<?php echo $showcase->getPriceFormat($variant['sale']); ?>"<?php } ?> <?php if ($photo){ ?>data-photo="<?php html($photo); ?>"<?php } ?> data-url="<?php echo $url . '?&variant=' . $variant['id']; ?>"><?php html($variant['title']); ?></option>
+										<option value="<?php html($variant['id']); ?>" data-title="<?php html($variant['title']); ?>" <?php if (isset($fields['price']) && $fields['price']['is_in_list'] && $this->controller->cms_user->isInGroups($fields['price']['groups_read']) && !empty($variant['price'])){ ?>data-price="<?php echo $showcase->getPriceFormat($variant['price']); ?>"<?php } ?> <?php if (isset($fields['sale']) && $fields['sale']['is_in_list'] && $this->controller->cms_user->isInGroups($fields['sale']['groups_read']) && !empty($variant['sale'])){ ?>data-sale="<?php echo $showcase->getPriceFormat($variant['sale']); ?>"<?php } ?> <?php if ($photo){ ?>data-photo="<?php html($photo); ?>"<?php } ?> data-url="<?php echo $url . '?&variant=' . $variant['id']; ?>"><?php html($variant['title']); ?></option>
 										<?php $i++; ?>
 									<?php } ?>
 								</select>
@@ -166,7 +171,7 @@
 							</a>
 						</h2>
 						<div class="miw_price_box">
-							<?php if (isset($fields['price']) && $fields['price']['is_in_list'] && $this->controller->cms_user->isInGroups($fields['price']['groups_read']) && !empty($item['price'])){ ?>
+							<?php if (isset($fields['price']) && $fields['price']['is_in_list'] && $this->controller->cms_user->isInGroups($fields['price']['groups_read']) && !empty($item['fields']['price'])){ ?>
 								<div class="miw_price">
 									<?php html($item['fields']['price']['html']); ?> 
 								</div>
@@ -190,7 +195,7 @@
 							<?php if ($ctype['is_comments'] && $item['is_comments_on'] && !isset($revs)){ ?>
 								<span><i class="fa fa-comments-o"></i> <?php html($item['comments']); ?></span> 
 							<?php } ?>
-							<a href="<?php echo $url; ?>" class="more" rel="nofollow">Купить</a> 
+							<a href="javascript:void(0)" class="more sc_cart_btn" rel="nofollow" data-item_id="<?php html($item['id']); ?>" data-variant="<?php echo !empty($item['seted_variant']) ? $item['seted_variant'] : 0; ?>">В корзину</a> 
 						</div>
 					</div>
 				

@@ -31,7 +31,7 @@
 					</td>
 					<td class="sc_oli_price">
 						<?php echo $order['price']; ?> 
-						<?php echo !empty($this->controller->options['cerrency']) ? $this->controller->options['cerrency'] : LANG_CURRENCY; ?>
+						<?php echo !empty($this->controller->options['currency']) ? $this->controller->options['currency'] : LANG_CURRENCY; ?>
 					</td>
 					<td class="sc_oli_date"><?php echo html_date($order['date'], true); ?></td>
 					<?php if ($is_manager){ ?>
@@ -53,7 +53,7 @@
 									<?php } ?>
 									<span><a href="<?php echo !empty($good['slug']) ? (!empty($good['ctype_name']) ? href_to($good['ctype_name'], $good['slug'] . '.html') : $good['slug']) : 'javascript:void(0);'; ?>" target="_blank"><?php echo !empty($good['title']) ? $good['title'] : '[Неизвестно]'; ?></a></span>
 									<span data-sc-tip="Количество">x<?php echo !empty($good['qty']) ? $good['qty'] : 1; ?></span>
-									<span data-sc-tip="Цена" class="sc_gi_price"><?php echo !empty($good['price']) ? $good['price'] : 0; ?> <?php echo !empty($this->controller->options['cerrency']) ? $this->controller->options['cerrency'] : LANG_CURRENCY; ?></span>
+									<span data-sc-tip="Цена" class="sc_gi_price"><?php echo !empty($good['price']) ? $good['price'] : 0; ?> <?php echo !empty($this->controller->options['currency']) ? $this->controller->options['currency'] : LANG_CURRENCY; ?></span>
 									<?php 
 										$extra_fields = cmsEventsManager::hookAll("sc_html_cart_fields", array($this->controller->ctype_name, $good, $fields));
 										if ($extra_fields) { echo html_each($extra_fields); }

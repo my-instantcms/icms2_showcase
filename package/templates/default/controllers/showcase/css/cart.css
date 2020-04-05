@@ -95,7 +95,8 @@
     background: #eee;
     margin: 0 -16px -16px;
     padding: 0;
-    overflow: hidden;
+    display: flex;
+    justify-content: space-between;
 }
 .wd_scl_footer .wd_sclf_summ{
     float: left;

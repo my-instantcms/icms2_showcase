@@ -8,7 +8,7 @@
 			<div class="sc_ps_item">
 				<input type="checkbox" value="<?php html($system['id']); ?>" />
 				<div class="sc_ps_box">
-					<?php echo !$system['id'] ? '<img src="' . $system['icon'] . '" alt="' . $system['title'] . '" />' : html_image($system['icon'], 'original', $system['title']); ?>
+					<?php echo (!$system['id'] || $system['id'] == 999) ? '<img src="' . $system['icon'] . '" alt="' . $system['title'] . '" />' : html_image($system['icon'], 'original', $system['title']); ?>
 					<?php html($system['title']); ?>
 				</div>
 			</div>

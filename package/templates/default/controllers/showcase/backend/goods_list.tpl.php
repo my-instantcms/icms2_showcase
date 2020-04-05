@@ -50,7 +50,7 @@
 			width: 150,
 			headerSort:false,
 			formatter:function(cell, formatterParams){
-			   return cell.getValue() + ' <?php html(!empty($this->controller->options['cerrency']) ? $this->controller->options['cerrency'] : LANG_CURRENCY); ?>';
+			   return cell.getValue() + ' <?php html(!empty($this->controller->options['currency']) ? $this->controller->options['currency'] : LANG_CURRENCY); ?>';
 			},
 		}
 	];
@@ -159,7 +159,7 @@
 					editor:"number",
 					sorter:"number",
 					formatter:function(cell, formatterParams){
-					   return cell.getValue() + ' <?php html(!empty($this->controller->options['cerrency']) ? $this->controller->options['cerrency'] : LANG_CURRENCY); ?>';
+					   return cell.getValue() + ' <?php html(!empty($this->controller->options['currency']) ? $this->controller->options['currency'] : LANG_CURRENCY); ?>';
 					},
 					headerFilter:minMaxFilterEditor,
 					bottomCalc:"sum",
@@ -172,7 +172,7 @@
 					editor:"number",
 					sorter:"number",
 					formatter:function(cell, formatterParams){
-					   return cell.getValue() ? cell.getValue() + ' <?php html(!empty($this->controller->options['cerrency']) ? $this->controller->options['cerrency'] : LANG_CURRENCY); ?>' : null;
+					   return cell.getValue() ? cell.getValue() + ' <?php html(!empty($this->controller->options['currency']) ? $this->controller->options['currency'] : LANG_CURRENCY); ?>' : null;
 					},
 					headerFilter:minMaxFilterEditor
 				},
