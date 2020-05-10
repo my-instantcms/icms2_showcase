@@ -158,26 +158,26 @@ class showcase extends cmsFrontend {
 				}
 				$count++;
 			}
-			
-			$sales = $this->model->filterEqual('i.is_pub', 1)->orderBy('i.start', 'ASC')->getData('sc_sales');
-			$current_sale = false;
-			$old_summ = $summ;
-			if ($sales){
-				foreach ($sales as $sale){
-					if ($summ >= $sale['start']){
-						$current_sale = array('id' => $sale['id']) + $sale;
-					}
-				}
-				if ($current_sale){
-					if ($current_sale['type'] == 'prosent'){
-						$prosent = ($summ / 100 * (float)$current_sale['sale']);
-						$summ = ($summ - $prosent);
-					} else {
-						$summ = ($summ - (float)$current_sale['sale']);
-					}
+
+		}
+		
+		$sales = $this->model->filterEqual('i.is_pub', 1)->orderBy('i.start', 'ASC')->getData('sc_sales');
+		$current_sale = false;
+		$old_summ = $summ;
+		if ($sales){
+			foreach ($sales as $sale){
+				if ($summ >= $sale['start']){
+					$current_sale = array('id' => $sale['id']) + $sale;
 				}
 			}
-
+			if ($current_sale){
+				if ($current_sale['type'] == 'prosent'){
+					$prosent = ($summ / 100 * (float)$current_sale['sale']);
+					$summ = ($summ - $prosent);
+				} else {
+					$summ = ($summ - (float)$current_sale['sale']);
+				}
+			}
 		}
 		
 		return array(
