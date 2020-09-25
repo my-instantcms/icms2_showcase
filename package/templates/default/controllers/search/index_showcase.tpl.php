@@ -177,6 +177,7 @@
 	
 	<?php $this->block('bottom_showcase_list'); ?>
 	
+	<?php ob_start(); ?>
 	<script>
 	
 		icms.showcase.list_pos = '<?php echo ($list_pos == 'contain') ? 'center' : $list_pos; ?>';
@@ -202,7 +203,7 @@
 		}
 
 	</script>
-	
+	<?php $this->addBottom(ob_get_clean()); ?>
 	
     <?php if ($search_data['count'] > $perpage){ ?>
         <?php echo html_pagebar($page, $perpage, $search_data['count'], $page_url, $uri_query); ?>

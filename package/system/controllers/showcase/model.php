@@ -127,6 +127,7 @@ class modelShowcase extends cmsModel{
 		$this->db->dropTable('sc_logs');
 		$this->db->dropTable('sc_pay_gateways');
 		$this->db->dropTable('sc_pay_systems');
+		$this->db->dropTable('sc_sales');
 		$this->db->dropTable('sc_steps');
 		$this->db->dropTable('sc_tabs');
 		$this->db->dropTable('sc_todo');

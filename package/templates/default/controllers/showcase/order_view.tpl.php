@@ -14,9 +14,9 @@
 	$pay = false;
 ?>
 <?php if ($is_manager){ ?>
-	<div class="sc_order_view_btns" style="display:none">
-		<a href="<?php echo href_to('showcase', 'order_edit', $order['id']); ?>"><?php html(LANG_EDIT); ?></a>
-		<a href="<?php echo href_to('showcase', 'order_delete', $order['id']); ?>"><?php html(LANG_DELETE); ?></a>
+	<div class="sc_order_view_btns">
+		<a href="<?php echo href_to('showcase', 'order_edit', $order['id']); ?>" style="display:none"><?php html(LANG_EDIT); ?></a>
+		<a href="<?php echo href_to('showcase', 'order_delete', $order['id']); ?>" onclick="return confirm('Вы уверены что хотите удалить заказ?')"><?php html(LANG_DELETE); ?></a>
 	</div>
 <?php } ?>
 <table class="sc_order_view">
@@ -41,7 +41,7 @@
 											} else if ($key == 'paid'){
 												if ($v != 1){
 													echo 'Наличные, при получении';
-												} else if (isset($val['payment_system']) && $system){
+												} else if (!empty($val['payment_system']) && $system){
 													if ($order['paid'] == 1){
 														echo  '<a href="' . href_to('showcase', 'set_payment', $order['id']) . '" class="ajax-modal order_fields_paid" title="Изменить способ оплаты">' . $system['title'] . '</a>';
 													} else {
@@ -140,6 +140,7 @@
 		</tr>
 	</tbody>
 </table>
+<?php ob_start(); ?>
 <script>
 	<?php if (!empty($this->controller->options['payment']) && $this->controller->options['payment'] != 'off'){ ?>
 		function scOrderPay(btn){
@@ -182,3 +183,4 @@
 		}
 	}
 </script>
+<?php $this->addBottom(ob_get_clean()); ?>

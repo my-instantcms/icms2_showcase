@@ -9,6 +9,7 @@
 			</div>
 		<?php } ?>
 	</div>
+	<?php ob_start(); ?>
 	<script>
 		function set_payment(id){
 			$.post('<?php echo href_to('showcase', 'set_payment', $order['id']); ?>', {id : id}, function(result){
@@ -23,6 +24,7 @@
 			}, 'json');
 		}
 	</script>
+	<?php $this->addBottom(ob_get_clean()); ?>
 <?php } else { ?>
 	<p>Платежные системы не найдены</p>
 <?php } ?>

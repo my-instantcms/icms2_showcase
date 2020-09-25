@@ -58,6 +58,7 @@
 			</div>
 
 			<script src="/<?php html($this->getTplFilePath('controllers/showcase/libs/slick/slick.min.js', false)); ?>"></script>
+			<?php ob_start(); ?>
 			<script>
 
 				icms.showcase.sync1 = $('#sync1').slick({
@@ -105,6 +106,7 @@
 				});
 
 			</script>
+			<?php $this->addBottom(ob_get_clean()); ?>
 		</div>
 	</div>
 	

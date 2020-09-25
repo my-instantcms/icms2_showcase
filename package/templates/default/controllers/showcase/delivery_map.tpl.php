@@ -1,3 +1,4 @@
+<?php ob_start(); ?>
 <script type="text/javascript">
 	<?php if ($provider == 'yandex'){ ?>
 		var myMap, myPlacemark, coords;
@@ -129,6 +130,7 @@
 		}
 	<?php } ?>
 </script>
+<?php $this->addBottom(ob_get_clean()); ?>
 <div id="select_delivery_map" style="height:500px;width:500px"></div>
 <?php if (!$pickup){ ?>
 	<div class="buttons" style="padding:10px">

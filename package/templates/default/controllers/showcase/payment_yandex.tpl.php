@@ -39,11 +39,11 @@
 		<input type="hidden" name="paymentType" value="PC">
 		<input type="submit" value="Оплатить" style="display:none">
 	</form>
-	
+	<?php ob_start(); ?>
 	<script>
 		$(document).ready(function() {
 			$('#yd_pay_form').submit();
 		});
 	</script>
-
+	<?php $this->addBottom(ob_get_clean()); ?>
 <?php } ?>

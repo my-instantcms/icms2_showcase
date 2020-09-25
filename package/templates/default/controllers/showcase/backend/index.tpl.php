@@ -35,6 +35,7 @@
 		<div class="row">
 			<div class="col-md-6">
                 <div id="actions-by-ajax"></div>
+				<?php ob_start(); ?>
 				<script>
 				   $(function(){
 						$('[data-toggle="tooltip"]').tooltip();
@@ -108,6 +109,7 @@
 					});
 					
 				</script>
+				<?php $this->addBottom(ob_get_clean()); ?>
 			</div>
 			<div class="col-md-6">
 			

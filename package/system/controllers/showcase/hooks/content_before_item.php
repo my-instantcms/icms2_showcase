@@ -32,7 +32,7 @@ class onShowcaseContentBeforeItem extends cmsAction {
 						$item['variant_photo'] = !empty($item['variations'][$v]['photo']) ? $item['variations'][$v]['photo'] : 0;
 						$item['variant_attached'] = !empty($item['variations'][$v]['attached']) ? 1 : 0;
 						$item['variant_id'] = $v;
-						$item['sale'] = !empty($item['variations'][$v]['sale']) ? $item['variations'][$v]['sale'] : null;
+						$item['sale'] = (!empty($item['variations'][$v]['sale']) && $item['variations'][$v]['sale'] > 0) ? $item['variations'][$v]['sale'] : null;
 						$item['variant_in'] = !empty($item['variations'][$v]['in']) ? $item['variations'][$v]['in'] : 'none';
 						$item['in_stock'] = !empty($item['variations'][$v]['in']) ? $item['variations'][$v]['in'] : $item['in_stock'];
 					}

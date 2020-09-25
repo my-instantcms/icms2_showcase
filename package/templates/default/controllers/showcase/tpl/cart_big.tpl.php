@@ -3,7 +3,7 @@
 	$showcase = cmsCore::getController('showcase');
 ?>
 <h1 id="sc_cart_title">Корзина (<?php echo html_spellcount((isset($count) ? $count : 0), 'товар|товара|товаров'); ?>)</h1>
-<script>icms.showcase.cart_styles.big = 1;</script>
+<?php ob_start(); ?><script>icms.showcase.cart_styles.big = 1;</script><?php $this->addBottom(ob_get_clean()); ?>
 <div class="wd_sc_cart sc_style_big">
 	<div class="wd_sc_cart_loader">
 		<img src="/<?php html($this->getTplFilePath('controllers/showcase/img/ajax-loader.gif', false)); ?>" alt="Загрузка..." />

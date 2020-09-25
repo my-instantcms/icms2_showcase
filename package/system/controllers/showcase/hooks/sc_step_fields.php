@@ -12,7 +12,7 @@ class onShowcaseScStepFields extends cmsAction {
 			filterEqual('i.is_pub', 1)->
 			orderBy('i.ordering', 'asc')->
 			getData('sc_cart_fields', false, false, false, 'name');
-			
+
 		if (!empty($data['cart_fields']['paid'])){
 			if (empty($this->options['payment']) || $this->options['payment'] == 'off'){
 				unset($data['cart_fields']['paid']);
@@ -28,10 +28,10 @@ class onShowcaseScStepFields extends cmsAction {
 					filterEqual('i.is_pub', 1)->
 					orderBy('i.ordering', 'ASC')->
 					getData('sc_pay_systems');
-				$data['cart_fields']['paid']['systems'] = !empty($data['cart_fields']['paid']['systems'][0]) ? array_merge($data['cart_fields']['paid']['systems'], ($systems ? $systems : array())) : $systems;
+				$data['cart_fields']['paid']['systems'] = (!empty($data['cart_fields']['paid']['systems'][0]) || !empty($data['cart_fields']['paid']['systems'][999])) ? array_merge($data['cart_fields']['paid']['systems'], ($systems ? $systems : array())) : $systems;
 			}
 		}
-			
+
 		$data['values'] = cmsUser::isSessionSet('cart_fields_values') ? cmsUser::sessionGet('cart_fields_values') : false;
 
 		return $data;

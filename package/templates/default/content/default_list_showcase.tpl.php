@@ -40,10 +40,12 @@
 	
 	<?php $this->block('top_showcase_list'); ?>
 	
+	<?php ob_start(); ?>
 	<script>
 		var cart_data = {};
 		var preorder_data = {};
 	</script>
+	<?php $this->addBottom(ob_get_clean()); ?>
 
 	<div class="showcase_list_grid <?php echo $ctype['name']; ?>_list_grid" onload="icms.showcase.bulidListGrid(this)">
 		<?php foreach($items as $item){ ?>
@@ -119,14 +121,14 @@
 							<?php if (empty($showcase->options['variants_list']) || $showcase->options['variants_list'] == 'box'){ ?>
 								<?php foreach ($item['variants'] as $variant){ ?>
 									<?php
-										if (empty($variant['in']) || $variant['in'] == 'none' || (int)$variant['in'] < 1){ continue; }
+										//if (empty($variant['in']) || $variant['in'] == 'none' || (int)$variant['in'] < 1){ continue; }
 										if ($i == 4){ 
 											echo '<a href="' . $url . '" class="sc_variant_selector scvs_count" data-sc-tip="Все варианты" rel="nofollow">+' . (count($item['variants']) - 3) . '</a>';
 											break;
 										}
 										$photo = !empty($variant['photo']) ? html_image_src($variant['photo'], 'big', true) : 0;
 									?>
-									<div class="sc_variant_selector" <?php if (!empty($variant['color']) && !empty($colors[$variant['color']]['color'])){ ?>style="background:<?php html($colors[$variant['color']]['color']); ?>"<?php } ?> data-sc-tip="Вариант <?php html($i); ?>" data-title="<?php html($variant['title']); ?>" <?php if (isset($fields['price']) && $fields['price']['is_in_list'] && $this->controller->cms_user->isInGroups($fields['price']['groups_read']) && !empty($variant['price'])){ ?>data-price="<?php echo $showcase->getPriceFormat($variant['price']); ?>"<?php } ?> <?php if (isset($fields['sale']) && $fields['sale']['is_in_list'] && $this->controller->cms_user->isInGroups($fields['sale']['groups_read']) && !empty($variant['sale'])){ ?>data-sale="<?php echo $showcase->getPriceFormat($variant['sale']); ?>"<?php } ?> <?php if ($photo){ ?>data-photo="<?php html($photo); ?>"<?php } ?> data-url="<?php echo $url . '?&variant=' . $variant['id']; ?>" onClick="icms.showcase.setListVariant(this, <?php html($item['id']); ?>)"></div> 
+									<div class="sc_variant_selector" <?php if (!empty($variant['color']) && !empty($colors[$variant['color']]['color'])){ ?>style="background:<?php html($colors[$variant['color']]['color']); ?>"<?php } ?> data-sc-tip="Вариант <?php html($i); ?>" data-title="<?php html($variant['title']); ?>" <?php if (isset($fields['price']) && $fields['price']['is_in_list'] && $this->controller->cms_user->isInGroups($fields['price']['groups_read']) && !empty($variant['price'])){ ?>data-price="<?php echo $showcase->getPriceFormat($variant['price']); ?>"<?php } ?> <?php if (isset($fields['sale']) && $fields['sale']['is_in_list'] && $this->controller->cms_user->isInGroups($fields['sale']['groups_read']) && !empty($variant['sale']) && $variant['sale'] > 0){ ?>data-sale="<?php echo $showcase->getPriceFormat($variant['sale']); ?>"<?php } ?> <?php if ($photo){ ?>data-photo="<?php html($photo); ?>"<?php } ?> data-url="<?php echo $url . '?&variant=' . $variant['id']; ?>" data-id="<?php html($variant['id']); ?>" data-in_stock="<?php echo (!empty($variant['in']) && $variant['in'] != 'none') ? $variant['in'] : 0; ?>" onClick="icms.showcase.setListVariant(this, <?php html($item['id']); ?>)"></div> 
 									<?php $i++; ?>
 								<?php } ?>
 							<?php } else { ?>
@@ -134,13 +136,13 @@
 									<option value="0">Выбрать вариант</option>
 									<?php foreach ($item['variants'] as $variant){ ?>
 										<?php
-											if (empty($variant['in']) || $variant['in'] == 'none' || (int)$variant['in'] < 1){ continue; }
+											//if (empty($variant['in']) || $variant['in'] == 'none' || (int)$variant['in'] < 1){ continue; }
 											if ($i == 8){ 
 												break;
 											}
 											$photo = !empty($variant['photo']) ? html_image_src($variant['photo'], 'big', true) : 0;
 										?>
-										<option value="<?php html($variant['id']); ?>" data-title="<?php html($variant['title']); ?>" <?php if (isset($fields['price']) && $fields['price']['is_in_list'] && $this->controller->cms_user->isInGroups($fields['price']['groups_read']) && !empty($variant['price'])){ ?>data-price="<?php echo $showcase->getPriceFormat($variant['price']); ?>"<?php } ?> <?php if (isset($fields['sale']) && $fields['sale']['is_in_list'] && $this->controller->cms_user->isInGroups($fields['sale']['groups_read']) && !empty($variant['sale'])){ ?>data-sale="<?php echo $showcase->getPriceFormat($variant['sale']); ?>"<?php } ?> <?php if ($photo){ ?>data-photo="<?php html($photo); ?>"<?php } ?> data-url="<?php echo $url . '?&variant=' . $variant['id']; ?>"><?php html($variant['title']); ?></option>
+										<option value="<?php html($variant['id']); ?>" data-title="<?php html($variant['title']); ?>" <?php if (isset($fields['price']) && $fields['price']['is_in_list'] && $this->controller->cms_user->isInGroups($fields['price']['groups_read']) && !empty($variant['price'])){ ?>data-price="<?php echo $showcase->getPriceFormat($variant['price']); ?>"<?php } ?> <?php if (isset($fields['sale']) && $fields['sale']['is_in_list'] && $this->controller->cms_user->isInGroups($fields['sale']['groups_read']) && !empty($variant['sale']) && $variant['sale'] > 0){ ?>data-sale="<?php echo $showcase->getPriceFormat($variant['sale']); ?>"<?php } ?> <?php if ($photo){ ?>data-photo="<?php html($photo); ?>"<?php } ?> data-url="<?php echo $url . '?&variant=' . $variant['id']; ?>" <?php if (empty($variant['in']) || $variant['in'] == 'none' || (int)$variant['in'] < 1){ ?>disabled<?php } ?> data-in_stock="<?php echo (!empty($variant['in']) && $variant['in'] != 'none') ? $variant['in'] : 0; ?>"><?php html($variant['title']); ?></option>
 										<?php $i++; ?>
 									<?php } ?>
 								</select>
@@ -158,7 +160,7 @@
 								<?php html(mb_strimwidth(strip_tags($item['label']), 0, 6)); ?>
 							</div>
 						</div>
-					<?php } else if (!empty($item['sale'])){ ?>
+					<?php } else if (!empty($item['sale']) && $item['sale'] > 0 || !empty($variant['sale']) && $variant['sale'] > 0){ ?>
 						<div class="miw_block_polosa">
 							<div class="miw_polosa is_sc_sale">Скидка</div>
 						</div>
@@ -173,9 +175,9 @@
 						<div class="miw_price_box">
 							<?php if (isset($fields['price']) && $fields['price']['is_in_list'] && $this->controller->cms_user->isInGroups($fields['price']['groups_read']) && !empty($item['fields']['price'])){ ?>
 								<div class="miw_price">
-									<?php html($item['fields']['price']['html']); ?> 
+									<?php echo $fields['price']['handler']->setItem($item)->parseTeaser($item['price']); ?> 
 								</div>
-								<?php if (!empty($item['sale'])){ ?>
+								<?php if (!empty($item['sale']) && $item['sale'] > 0 || !empty($variant['sale']) && $variant['sale'] > 0){ ?>
 									<s class="sc_old_price"><?php echo $showcase->getPriceFormat($item['price']); ?></s>
 								<?php } ?>
 							<?php } else { ?>
@@ -195,7 +197,7 @@
 							<?php if ($ctype['is_comments'] && $item['is_comments_on'] && !isset($revs)){ ?>
 								<span><i class="fa fa-comments-o"></i> <?php html($item['comments']); ?></span> 
 							<?php } ?>
-							<a href="javascript:void(0)" class="more sc_cart_btn" rel="nofollow" data-item_id="<?php html($item['id']); ?>" data-variant="<?php echo !empty($item['seted_variant']) ? $item['seted_variant'] : 0; ?>">В корзину</a> 
+							<a href="javascript:void(0)" class="more sc_cart_btn" rel="nofollow" data-in_stock="<?php echo !empty($item['in_stock']) ? $item['in_stock'] : 0; ?>" data-item_id="<?php html($item['id']); ?>" data-variant="<?php echo !empty($item['seted_variant']) ? $item['seted_variant'] : 0; ?>">В корзину</a> 
 						</div>
 					</div>
 				
@@ -208,6 +210,7 @@
 	
 	<?php $this->block('bottom_showcase_list'); ?>
 	
+	<?php ob_start(); ?>
 	<script>
 		
 		icms.showcase.list_pos = '<?php echo ($list_pos == 'contain') ? 'center' : $list_pos; ?>';
@@ -233,6 +236,7 @@
 		}
 
 	</script>
+	<?php $this->addBottom(ob_get_clean()); ?>
 
     <?php if ($perpage < $total) { ?>
         <?php echo html_pagebar($page, $perpage, $total, $page_url, array_merge($filters, $ext_hidden_params)); ?>

@@ -152,7 +152,14 @@
 .showcase_list_grid .my_default_list_item .my_item_wrap .miw_description .miw_footer a.more{
     display: inline-block;
     float: right;
-    padding: 6px 9px 6px 5px;
+    padding: 6px 9px 6px 5px !important;
+    height: auto;
+    padding: 0;
+    line-height: normal;
+    margin: 0;
+    min-width: auto;
+    background: none;
+    box-shadow: none;
 }
 
 .miw_block_polosa {

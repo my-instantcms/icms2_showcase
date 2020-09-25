@@ -49,6 +49,7 @@
 		</tbody>
 	</table>
 </div>
+<?php ob_start(); ?>
 <script type="text/javascript">
 
 	var datasets_id = <?php echo $value ? count($value) : 2; ?>;
@@ -75,3 +76,4 @@
 	}
 
 </script>
+<?php $this->addBottom(ob_get_clean()); ?>

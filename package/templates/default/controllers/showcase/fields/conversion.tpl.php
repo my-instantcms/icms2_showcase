@@ -1,6 +1,7 @@
 <?php if ($field->title) { ?><label for="<?php echo $field->id; ?>"><?php echo $field->title; ?></label><?php } ?>
 <?php echo html_input('text', $field->element_name, $value, array('id' => $field->element_name)); ?>
 <button type="button" onClick="scGetCourse(this)">Спарсить текущий курс</button>
+<?php ob_start(); ?>
 <script>
 	var course = 0;
 	function scGetCourse(btn){
@@ -38,3 +39,4 @@
 
 	}
 </script>
+<?php $this->addBottom(ob_get_clean()); ?>

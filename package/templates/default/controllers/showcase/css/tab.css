@@ -112,9 +112,9 @@
 .sc_order_edit{}
 .sc_order_edit tr td input{}
 .sc_order_edit select[name="date[hours]"], .sc_order_edit select[name="date[mins]"]{width: 50px;}
-.sc_order_edit .price_input{width: 120px;padding: 4px 8px;border: solid 1px #aaa;box-shadow: inset 0 1px 2px #DDD;color: #333;outline: none;}
-.sc_order_edit .sc_order_view_goods select{width: 47%;}
-.sc_order_view_good{display: flex;justify-content: space-between;}
+.sc_order_edit .price_input, .scGoodEditQty{width: 120px;padding: 4px 8px;border: solid 1px #aaa;box-shadow: inset 0 1px 2px #DDD;color: #333;outline: none;}
+.sc_order_edit .sc_order_view_goods select{width: 40%;}
+.sc_order_view_good{display: flex;justify-content: space-between;margin-bottom: 5px;}
 .scovg_add_goods{
     text-decoration: none;
     text-align: center;
@@ -132,4 +132,18 @@
     line-height: 27px;
     color: #fff;
     border-radius: 2px;
+}
+
+.sc_order_view_btns{
+    display: block;
+    text-align: right;
+    margin-bottom: 15px;
+}
+.sc_order_view_btns a{
+    text-decoration: none;
+    margin-right: 5px;
+}
+.sc_order_view_btns a:nth-child(2){color: red;}
+.scGoodEditQty{
+    width: 40px;
 }

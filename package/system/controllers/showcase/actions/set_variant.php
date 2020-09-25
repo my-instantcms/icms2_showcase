@@ -15,7 +15,7 @@ class actionShowcaseSetVariant extends cmsAction {
 			'price' => $variant['price'],
 			'price_round' => $this->getPriceFormat($variant['price'], false, false),
 			'sale' => $variant['sale'],
-			'sale_round' => $variant['sale'] ? $this->getPriceFormat($variant['sale'], false, false) : false,
+			'sale_round' => ($variant['sale'] && $variant['sale'] > 0) ? $this->getPriceFormat($variant['sale'], false, false) : false,
 			'photo' => $variant['photo'] ? cmsModel::yamlToArray($variant['photo']) : false,
 			'artikul' => $variant['artikul'],
 			'in_stock' => $variant['in']

@@ -44,6 +44,7 @@
 	<?php } ?>
 </div>
 <a href="<?php echo href_to('showcase', 'form_variations', array($id)); ?>" class="sc_add_variations ajax-modal" title="Добавить вариант">Добавить вариант товара</a>
+<?php ob_start(); ?>
 <script type="text/javascript">
 	$('#sc_field_variations_box').DDSort({
 		target: 'li',
@@ -76,3 +77,4 @@
 		}, 'json');
 	}
 </script>
+<?php $tpl->addBottom(ob_get_clean()); ?>

@@ -9,7 +9,7 @@
 	*/
 
 	$old_price = $value;
-	if (!empty($this->item['sale'])){
+	if (!empty($this->item['sale']) && $this->item['sale'] > 0){
 		$value = $this->item['sale'];
 	}
 	
@@ -20,7 +20,7 @@
 <div class="field ft_scprice f_price auto_field">
 	<div class="value">
 		<div itemprop="offers" itemscope itemtype="http://schema.org/Offer" class="is_scPrice" data-current="<?php html($value); ?>" data-old_price="<?php echo $showcase->getPriceFormat($old_price, false, false); ?>">
-			<?php if (!empty($this->item['sale'])){ ?><s class="is_scOldPrice"><?php echo $showcase->getPriceFormat($old_price, false, false); ?></s> <?php } ?>
+			<?php if (!empty($this->item['sale']) && $this->item['sale'] > 0){ ?><s class="is_scOldPrice"><?php echo $showcase->getPriceFormat($old_price, false, false); ?></s> <?php } ?>
 			<span itemprop="price" content="<?php html($value); ?>"><?php echo $showcase->getPriceFormat($value, true); ?> </span>
 			
 			<meta content="<?php echo $_SERVER['REQUEST_URI']; ?>" itemprop="url" />

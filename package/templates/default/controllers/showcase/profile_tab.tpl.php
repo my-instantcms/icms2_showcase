@@ -11,7 +11,7 @@
 <?php echo html_select('type', $status, $type, array('onchange' => 'scSetType(this)')); ?>
 
 <div class="sc_order_lists"></div>
-
+<?php ob_start(); ?>
 <script type="text/javascript">
 	$(function () {
 		$.post('<?php echo href_to('showcase', 'tabs_data', array($profile['id'], $type)); ?>', false, function(result){
@@ -80,3 +80,4 @@
 	<?php } ?>
 
 </script>
+<?php $this->addBottom(ob_get_clean()); ?>

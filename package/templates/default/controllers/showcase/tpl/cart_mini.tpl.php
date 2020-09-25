@@ -2,7 +2,7 @@
 	$this->addCSS($this->getTplFilePath('controllers/showcase/css/cart.css', false));
 	$showcase = cmsCore::getController('showcase');
 ?>
-<script>icms.showcase.cart_styles.mini = 1;</script>
+<?php ob_start(); ?><script>icms.showcase.cart_styles.mini = 1;</script><?php $this->addBottom(ob_get_clean()); ?>
 <div class="wd_sc_cart sc_style_mini">
 	
 	<div class="wd_sc_cart_loader">

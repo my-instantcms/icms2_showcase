@@ -119,8 +119,10 @@ body{font-size:14px}
 		</table>
 	<?php } ?>
 </div>
+<?php ob_start(); ?>
 <script>
 	window.onload = function() { window.print(); }
 </script>
+<?php $this->addBottom(ob_get_clean()); ?>
 </body>
 </html>

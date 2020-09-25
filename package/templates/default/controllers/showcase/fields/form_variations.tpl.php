@@ -62,6 +62,7 @@
 	</div>
 </div>
 <div onclick="addVariationToItem(this)" class="sc_add_variation_to_item"><?php echo $id ? LANG_SAVE : LANG_ADD; ?> вариант</div>
+<?php ob_start(); ?>
 <script type="text/javascript">
 	
 	$(document).ready(function() {
@@ -186,3 +187,4 @@
 	}
 	
 </script>
+<?php $this->addBottom(ob_get_clean()); ?>

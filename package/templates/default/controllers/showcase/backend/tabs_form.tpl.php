@@ -32,8 +32,10 @@
 		</div>
 	</div>
 </div>
+<?php ob_start(); ?>
 <script>
 	$(document).ready(function(){
 		$('#icon').iconpicker("#icon");
 	});
 </script>
+<?php $this->addBottom(ob_get_clean()); ?>

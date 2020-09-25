@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS `{#}sc_cart_delivery` (
   `type` varchar(30) DEFAULT 'courier',
   `pickup_address` varchar(160) DEFAULT NULL,
   `pickup_map` varchar(60) DEFAULT NULL,
-  `price` float DEFAULT NULL,
+  `price` decimal(19,2) UNSIGNED DEFAULT NULL,
   `ordering` int(3) DEFAULT '99',
   `is_pub` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`id`)
@@ -33,10 +33,21 @@ INSERT INTO `{#}sc_cart_fields` (`id`, `name`, `title`, `hint`, `type`, `attribu
 (4, 'tel', 'Телефон', NULL, 'telephone', NULL, 'only | "ru", "ua", "by", "kz", "kg"\r\npreferred |  "ru", "ua"\r\ninitial | ru', 0, 1, 3),
 (5, 'paid', 'Способ оплаты', NULL, 'payment', NULL, NULL, 1, 1, 4);
 
+CREATE TABLE IF NOT EXISTS `{#}sc_sales` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(60) NOT NULL,
+  `start` decimal(19,2) UNSIGNED DEFAULT NULL,
+  `type` varchar(20) DEFAULT 'type',
+  `sale` decimal(19,2) DEFAULT NULL,
+  `is_pub` tinyint(1) DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
 CREATE TABLE IF NOT EXISTS `{#}sc_checkouts` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `goods` text NOT NULL,
   `price` varchar(20) NOT NULL,
+  `sale_id` int(11) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
   `shop_id` int(11) DEFAULT NULL,
   `fields` text,
@@ -135,6 +146,7 @@ INSERT INTO `{#}sc_steps` (`id`, `title`, `href`, `hook`, `is_pub`, `ordering`) 
 CREATE TABLE IF NOT EXISTS `{#}sc_tabs` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(50) NOT NULL,
+  `icon` varchar(60) DEFAULT NULL,
   `type` varchar(30) DEFAULT 'fields',
   `style` varchar(30) DEFAULT NULL,
   `fields` text,
@@ -180,7 +192,7 @@ CREATE TABLE IF NOT EXISTS `{#}sc_transactions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `order_id` int(11) NOT NULL,
   `system_id` int(11) NOT NULL,
-  `price` decimal(10,0) DEFAULT NULL,
+  `price` decimal(19,2) DEFAULT NULL,
   `history` text,
   `errors` text,
   `response` text,
@@ -195,12 +207,12 @@ CREATE TABLE IF NOT EXISTS `{#}sc_variations` (
   `title` varchar(250) NOT NULL,
   `photo` text,
   `attached` tinyint(1) DEFAULT '0',
-  `price` float DEFAULT NULL,
+  `price` decimal(19,2) UNSIGNED DEFAULT NULL,
   `in` int(11) DEFAULT NULL,
   `artikul` varchar(20) DEFAULT NULL,
   `ordering` INT(11) NULL DEFAULT '99',
   `size` varchar(160) DEFAULT NULL,
-  `sale` float DEFAULT NULL,
+  `sale` decimal(19,2) UNSIGNED DEFAULT NULL,
   `seo_keys` varchar(250) DEFAULT NULL,
   `seo_desc` varchar(250) DEFAULT NULL,
   `seo_title` varchar(250) DEFAULT NULL,
@@ -210,6 +222,7 @@ CREATE TABLE IF NOT EXISTS `{#}sc_variations` (
 
 CREATE TABLE IF NOT EXISTS `{#}sc_aggregators` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `file` varchar(50) NOT NULL,
   `name` varchar(20) NOT NULL,
   `company` varchar(100) NOT NULL,
   `email` varchar(60) DEFAULT NULL,
@@ -227,7 +240,6 @@ CREATE TABLE IF NOT EXISTS `{#}sc_aggregators` (
   `pickup_cost` decimal(11,0) DEFAULT NULL,
   `pickup_days` varchar(20) DEFAULT NULL,
   `store` tinyint(1) DEFAULT NULL,
-  `files` text,
   `is_pub` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;

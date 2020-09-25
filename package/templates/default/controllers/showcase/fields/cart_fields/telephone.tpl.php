@@ -21,6 +21,7 @@
 	<?php } ?>
 />
 <style>.sc_cField_value #<?php html($field['name']); ?>{width:100%;padding:6px 8px 6px 52px;border:1px solid #ddd;background:#f7f7f7;outline:none}</style>
+<?php ob_start(); ?>
 <script>
 	var <?php html($field['name']); ?>telInput = document.querySelector("#<?php html($field['name']); ?>");
 	
@@ -40,3 +41,4 @@
 	<?php } ?>
 	
 </script>
+<?php $this->addBottom(ob_get_clean()); ?>

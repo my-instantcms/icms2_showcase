@@ -277,6 +277,7 @@ td > p{margin-bottom: 5px}
     padding-left: 15px;
     font-size: 13px;}
 </style>
+<?php ob_start(); ?>
 <script type="text/javascript">
 	
 	var send_data = {};
@@ -324,3 +325,4 @@ td > p{margin-bottom: 5px}
 	}
 	
 </script>
+<?php $this->addBottom(ob_get_clean()); ?>

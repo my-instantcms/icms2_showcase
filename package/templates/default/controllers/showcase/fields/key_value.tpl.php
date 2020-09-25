@@ -6,6 +6,7 @@
 	<input type="button" id="button" value="OK" onclick="akb_add('<?php html($field->element_name); ?>')"  /> 
 </div>
 <a onclick="akb_toggle('<?php html($field->element_name); ?>')" class="akb_toggle"><?php html($field->title_add); ?></a>
+<?php ob_start(); ?>
 <script type="text/javascript">
 	function akb_toggle(name){
 		$('.add_key_block#akb_' + name).toggle();
@@ -27,6 +28,7 @@
 		$('.add_key_block#akb_' + name).hide();
 	}
 </script>
+<?php $this->addBottom(ob_get_clean()); ?>
 <style>
 	.akb_toggle{background: #eee;border: 1px solid #ddd;padding: 3px 5px;display: inline-block;cursor: pointer;}
 	.add_key_block{position: absolute;background: #fff;display:none}

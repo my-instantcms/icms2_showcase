@@ -129,6 +129,7 @@
 					<?php if (!empty($ctype['showcase']['price_format']) && $ctype['showcase']['price_format'] == 2){ ?>
 						icms.showcase.price_round = false;
 					<?php } ?>
+					icms.showcase.show_instock = '<?php echo !empty($ctype['showcase']['show_instock']) ? $ctype['showcase']['show_instock'] : 'counter'; ?>';
 				</script>
 				<?php if (!empty($fields['in_stock']) && !empty($fields['in_stock']['is_in_item'])){ ?>
 					<div class="sc_buy_qty" data-tc-tip="Количество">
@@ -192,6 +193,8 @@
 
             <?php if (!empty($fieldset['fields'])) { ?>
                 <?php foreach ($fieldset['fields'] as $field) { ?>
+				
+					<?php if ($field['name'] == 'in_stock') { continue; } ?>
 
                     <div class="field ft_<?php echo $field['type']; ?> f_<?php echo $field['name']; ?> <?php echo $field['options']['wrap_type']; ?>_field" <?php if($field['options']['wrap_width']){ ?> style="width: <?php echo $field['options']['wrap_width']; ?>;"<?php } ?>>
                         <?php if ($field['options']['label_in_item'] != 'none') { ?>

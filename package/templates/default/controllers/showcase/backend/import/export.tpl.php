@@ -34,6 +34,7 @@
 		</div>
 	</div>
 </div>
+<?php ob_start(); ?>
 <script>
 	var send_data = {};
 	$(document).ready(function() {
@@ -85,6 +86,7 @@
 		}
 	}
 </script>
+<?php $this->addBottom(ob_get_clean()); ?>
 <style>
 	.sc_export_selectbox{width:600px;margin:auto}
 	.sc_export_selectbox fieldset{border: 1px solid #ddd;padding: 10px;margin-bottom: 10px;}

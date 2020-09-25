@@ -11,6 +11,13 @@
 		<a href="fix/index_showcase">Пересоздать файл index_<?php html($this->controller->ctype_name); ?>.tpl.php</a>
 	</div>
 </p>
+<h3>Версия 1.2.5</h3>
+<ul class="diagnostics">
+	<li>Поле sale_id: <?php echo $sale_id ? '<b>Да</b>' : '<a href="fix/sale_id">Исправить</a>'; ?></li>
+	<li>Таблица sc_sales: <?php echo $sc_sales ? '<b>Да</b>' : '<a href="fix/sc_sales">Исправить</a>'; ?></li>
+	<li>Поле icon: <?php echo $icon ? '<b>Да</b>' : '<a href="fix/icon">Исправить</a>'; ?></li>
+	<li>Поле file: <?php echo $file ? '<b>Да</b>' : '<a href="fix/file">Исправить</a>'; ?></li>
+</ul>
 <h3>Версия 1.2.0</h3>
 <ul class="diagnostics">
 	<li>Таблица sc_aggregators: <?php echo $sc_aggregators ? '<b>Да</b>' : '<a href="fix/sc_aggregators">Исправить</a>'; ?></li>
@@ -33,7 +40,6 @@
 <h3>Версия 1.1.0</h3>
 <ul class="diagnostics">
 	<li>Запись paid: <?php echo $paid ? '<b>Да</b>' : '<a href="fix/paid">Исправить</a>'; ?></li>
-	<li>Поле price имеет тип float: <?php echo $price_float ? '<b>Да</b>' : '<a href="fix/price_float">Исправить</a>'; ?></li>
 	<li>Поле ordering в sc_variations: <?php echo $v_ordering ? '<b>Да</b>' : '<a href="fix/v_ordering">Исправить</a>'; ?></li>
 </ul>
 <style>

@@ -489,7 +489,7 @@
     font-weight: bold;
 }
 
-.variants_opened {height: 300px;}
+.variants_opened {height: 300px !important;}
 .variants_opened .tzSelect{height:auto}
 .variants_opened .tzSelect .selectBox{}
 .variants_opened .tzSelect .dropDown{
@@ -510,6 +510,17 @@
 
 .sc_item_view .sc_item_view_header .field.f_photo{max-width:500px}
 #sync1 .item.miwpb_contain {background-size: contain !important;background-position: center;}
+
+.sc_right_box .sc_variations_select {
+	max-width: none;
+    background: none;
+    border: none;
+    box-shadow: none;
+    height: auto;
+    cursor: pointer;
+    padding: 0;
+    font-family: initial;
+}
 
 @media screen and (max-width: 768px) {
 	.sc_right_box{

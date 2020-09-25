@@ -53,6 +53,7 @@
 		</div>
 	</div>
 </div>
+<?php ob_start(); ?>
 <script>
 	$(document).ready(function() {
 		if ($('.scHelpSelector').length){
@@ -80,3 +81,4 @@
 		});
 	}
 </script>
+<?php $this->addBottom(ob_get_clean()); ?>

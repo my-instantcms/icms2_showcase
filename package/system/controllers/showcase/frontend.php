@@ -110,15 +110,18 @@ class showcase extends cmsFrontend {
 			$goods = $model->
 				useCache("content.item.{$this->ctype_name}")->
 				getItemById('con_' . $this->ctype_name, $item_id);
+			
+			list($goods, $item, $item_id, $variant_id, $fields) = cmsEventsManager::hook('sc_cart_data_before', array($goods, $item, $item_id, $variant_id, $fields));
+			
 			if ($goods){
-				$goods['price'] = !empty($goods['sale']) ? $goods['sale'] : $goods['price'];
+				$goods['price'] = (!empty($goods['sale']) && $goods['sale'] > 0) ? $goods['sale'] : $goods['price'];
 				if (!empty($goods['variants']) && $variant_id){
 					// если есть варианты товара, делаем из них массив
 					$variants = cmsModel::yamlToArray($goods['variants']);
 					$variant = $this->model->getData('sc_variations', $variant_id);
 					if ($variant && $variants && in_array($variant_id, $variants) && (int)$variant['in'] > 0){
 						$items[$id]['variant'] = $variant;
-						$variant['price'] = !empty($variant['sale']) ? $variant['sale'] : $variant['price'];
+						$variant['price'] = (!empty($variant['sale']) && (float)$variant['sale'] > 0) ? $variant['sale'] : $variant['price'];
 						$items[$id]['price'] =!empty($variant['price']) ? $variant['price'] : $goods['price'];
 						$goods['title'] = !empty($variant['title']) ? $variant['title'] : $goods['title'];
 						$goods['price'] = !empty($variant['price']) ? $variant['price'] : $goods['price'];
@@ -138,6 +141,9 @@ class showcase extends cmsFrontend {
 						$items[$id]['qty'] = $goods['in_stock'];
 					}
 				}
+				
+				list($goods, $item, $item_id, $variant_id, $fields) = cmsEventsManager::hook('sc_cart_data_after', array($goods, $item, $item_id, $variant_id, $fields));
+				
 				$items[$id]['goods'] = $goods;
 				if (!empty($items[$id]['price'])){
 					// если количество товаров больше 1, тогда умножаем цену на количество

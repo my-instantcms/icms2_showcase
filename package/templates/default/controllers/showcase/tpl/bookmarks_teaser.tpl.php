@@ -6,6 +6,7 @@
 	<i class="fa <?php echo $is_added ? 'fa-heart' : 'fa-heart-o'; ?>" aria-hidden="true"></i>
 </a>
 <?php if ($bookmarks_css){ ?>
+<?php ob_start(); ?>
 <script>
 	function toggleBookmark(button, id){
 		<?php if ($user_id){ ?>
@@ -30,4 +31,5 @@
 		<?php } ?>
 	}
 </script>
+<?php $tpl->addBottom(ob_get_clean()); ?>
 <?php } ?>

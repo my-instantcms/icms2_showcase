@@ -52,11 +52,11 @@
 			<input type="hidden" name="LMI_SIM_MODE" value="2">
 		<?php } ?>
 	</form>
-	
+	<?php ob_start(); ?>
 	<script>
 		$(document).ready(function() {
 			$('#wm_pay_form').submit();
 		});
 	</script>
-
+	<?php $this->addBottom(ob_get_clean()); ?>
 <?php } ?>

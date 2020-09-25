@@ -129,6 +129,8 @@ class actionShowcaseImportData extends cmsAction {
 						} else {
 							$add_data[$send_data[$name]] = $value;
 						}
+					} else if ($send_data[$name] == 'price'){
+						$add_data[$send_data[$name]] = preg_replace( '/(?<=\d)\s+(?=\d)/', '', $value);
 					} else if ($send_data[$name] == 'category_id' && !is_numeric($send_data[$name])){
 						$add_data[$send_data[$name]] = $this->setCatImport($value, $data);
 					} else if ($send_data[$name] == 'sc_props'){
@@ -326,8 +328,24 @@ class actionShowcaseImportData extends cmsAction {
 			if (file_exists($value)) {
 				return array($this->photoUpload($value));
 			} else {
-				return null;
+				if (@getimagesize($value)) {
+					return array($this->photoUpload($value));
+				} else if ($this->is_webfile($value)){
+					return array($this->photoUpload($value));
+				} else {
+					return null;
+				}
 			}
+		}
+	}
+	
+	public function is_webfile($value){
+		$file_headers = @get_headers($value);
+		if($file_headers[0] == 'HTTP/1.1 404 Not Found') {
+			return false;
+		}
+		else {
+			return true;
 		}
 	}
 

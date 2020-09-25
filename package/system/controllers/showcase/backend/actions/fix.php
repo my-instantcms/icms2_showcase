@@ -41,17 +41,6 @@ class actionShowcaseFix extends cmsAction {
 					$this->model->db->query("INSERT INTO `{#}sc_cart_fields` (`name`, `title`, `hint`, `type`, `attributes`, `options`, `is_fixed`, `is_pub`, `ordering`) VALUES ('paid', 'Способ оплаты', NULL, 'payment', NULL, NULL, '1', '1', '4');");
 				}
 				break;
-			case 'price_float':
-				$price_field = $this->model->db->query("SHOW COLUMNS FROM `{#}sc_variations` LIKE 'price'");
-				$price_float = false;
-				while($data = $this->model->db->fetchAssoc($price_field)){
-					if ($data['Field'] != 'price'){ continue; }
-					$price_float = ($data['Type'] == 'float') ? true : false;
-				}
-				if (!$price_float){
-					$this->model->db->query("ALTER TABLE `{#}sc_variations` CHANGE `price` `price` FLOAT NULL DEFAULT NULL;", 0, 1);
-				}
-				break;
 			case 'v_ordering':
 				$v_ordering = $this->model->db->isFieldExists('sc_variations', 'ordering');
 				if (!$v_ordering){
@@ -116,6 +105,30 @@ class actionShowcaseFix extends cmsAction {
 				$yml = $this->model->getItemByField('scheduler_tasks', 'hook', 'yml');
 				if (!$yml){
 					$this->model->db->query("INSERT INTO `{#}scheduler_tasks` (`title`, `controller`, `hook`, `period`, `date_last_run`, `is_active`, `is_new`) VALUES ('Создание yml карты товаров', 'showcase', 'yml', 1440, NULL, 1, 1);", 0, 1);
+				}
+				break;
+			case 'sale_id':
+				$sale_id = $this->model->db->isFieldExists('sc_checkouts', 'sale_id');
+				if (!$sale_id){
+					$this->model->db->query("ALTER TABLE `{#}sc_checkouts` ADD `sale_id` int(11) NULL DEFAULT NULL AFTER `price`;", 0, 1);
+				}
+				break;
+			case 'sc_sales':
+				$sc_sales = $this->model->db->query("SELECT id FROM {#}sc_sales", false, true) ? 1 : 0;
+				if (!$sc_sales){
+					$this->model->db->query("CREATE TABLE IF NOT EXISTS `{#}sc_sales` (`id` int(11) NOT NULL AUTO_INCREMENT, `title` varchar(60) NOT NULL, `start` decimal(19,2) UNSIGNED DEFAULT NULL, `type` varchar(20) DEFAULT 'type', `sale` decimal(19,2) DEFAULT NULL, `is_pub` tinyint(1) DEFAULT '1', PRIMARY KEY (`id`)) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;", 0, 1);
+				}
+				break;
+			case 'icon':
+				$icon = $this->model->db->isFieldExists('sc_tabs', 'icon');
+				if (!$icon){
+					$this->model->db->query("ALTER TABLE `{#}sc_tabs` ADD `icon` VARCHAR(60) NULL DEFAULT NULL AFTER `title`;", 0, 1);
+				}
+				break;
+			case 'file':
+				$file = $this->model->db->isFieldExists('sc_aggregators', 'file');
+				if (!$file){
+					$this->model->db->query("ALTER TABLE `{#}sc_aggregators` ADD `file` VARCHAR(60) AFTER `id`;", 0, 1);
 				}
 				break;
 		}

@@ -127,7 +127,7 @@ class actionShowcaseGenerate extends cmsAction {
 			useCache('content.fields.' . $this->ctype_name)->
 			getItemByField('con_' . $this->ctype_name . '_fields', 'name', 'in_stock');
 		if (!$in_stock){
-			$in_stock = $this->model->db->query("INSERT INTO `{#}con_{$this->ctype_name}_fields` (`ctype_id`, `name`, `title`, `hint`, `ordering`, `fieldset`, `type`, `is_in_list`, `is_in_item`, `is_in_filter`, `is_private`, `is_fixed`, `is_fixed_type`, `is_system`, `values`, `options`, `groups_read`, `groups_edit`, `filter_view`) VALUES ({$ctype['id']}, 'in_stock', 'В наличии', NULL, 8, NULL, 'number', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '---\ndecimal_int: 7\ndecimal_s: 0\nthousands_sep:\nis_abs: null\nfilter_range: null\nunits: штук\ncontext_list:\n  - 0\nrelation_id: 0\nsc_position: 0\nlabel_in_list: none\nlabel_in_item: none\nwrap_type: auto\nwrap_width:\nis_required: null\nis_digits: null\nis_alphanumeric: null\nis_email: null\nis_unique: null\nprofile_value:\n', '---\n- 0\n', '---\n- 0\n', '---\n- 0\n');");
+			$in_stock = $this->model->db->query("INSERT INTO `{#}con_{$this->ctype_name}_fields` (`ctype_id`, `name`, `title`, `hint`, `ordering`, `fieldset`, `type`, `is_in_list`, `is_in_item`, `is_in_filter`, `is_private`, `is_fixed`, `is_fixed_type`, `is_system`, `values`, `options`, `groups_read`, `groups_edit`, `filter_view`) VALUES ({$ctype['id']}, 'in_stock', 'В наличии', NULL, 8, NULL, 'number', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, '---\ndecimal_int: 7\ndecimal_s: 0\nthousands_sep:\nis_abs: null\nfilter_range: null\nunits: штук\ncontext_list:\n  - 0\nrelation_id: 0\nsc_position: 0\nlabel_in_list: none\nlabel_in_item: none\nwrap_type: auto\nwrap_width:\nis_required: null\nis_digits: null\nis_alphanumeric: null\nis_email: null\nis_unique: null\nprofile_value:\n', '---\n- 0\n', '---\n- 0\n', '---\n- 0\n');");
 			if ($in_stock){
 				$this->model->db->query("ALTER TABLE {#}con_{$this->ctype_name} ADD `in_stock` int(11) DEFAULT NULL");
 			} else {
@@ -157,7 +157,7 @@ class actionShowcaseGenerate extends cmsAction {
 		if (!$price){
 			$price = $this->model->db->query("INSERT INTO `{#}con_{$this->ctype_name}_fields` (`ctype_id`, `name`, `title`, `hint`, `ordering`, `fieldset`, `type`, `is_in_list`, `is_in_item`, `is_in_filter`, `is_private`, `is_fixed`, `is_fixed_type`, `is_system`, `values`, `options`, `groups_read`, `groups_edit`, `filter_view`) VALUES ({$ctype['id']}, 'price', 'Цена', NULL, 6, NULL, 'scprice', 1, 1, 1, NULL, NULL, NULL, NULL, NULL, '---\nfilter_range: 1\ncontext_list:\n  - 0\nrelation_id: 0\nsc_position: 0\nlabel_in_list: none\nlabel_in_item: none\nwrap_type: auto\nwrap_width:\nis_required: 1\nis_digits: null\nis_alphanumeric: null\nis_email: null\nis_unique: null\nprofile_value:\n', '---\n- 0\n', '---\n- 0\n', '---\n- 0\n');");
 			if ($price){
-				$this->model->db->query("ALTER TABLE {#}con_{$this->ctype_name} ADD `price` float DEFAULT NULL");
+				$this->model->db->query("ALTER TABLE {#}con_{$this->ctype_name} ADD `price` DECIMAL(19,2) UNSIGNED NULL DEFAULT NULL");
 				$this->model->db->query("ALTER TABLE `{#}con_{$this->ctype_name}` ADD KEY `price` (`price`);");
 			} else {
 				$errors .= 'price, ';
@@ -170,7 +170,7 @@ class actionShowcaseGenerate extends cmsAction {
 		if (!$sale){
 			$sale = $this->model->db->query("INSERT INTO `{#}con_{$this->ctype_name}_fields` (`ctype_id`, `name`, `title`, `hint`, `ordering`, `fieldset`, `type`, `is_in_list`, `is_in_item`, `is_in_filter`, `is_private`, `is_fixed`, `is_fixed_type`, `is_system`, `values`, `options`, `groups_read`, `groups_edit`, `filter_view`) VALUES ({$ctype['id']}, 'sale', 'Цена со скидкой', NULL, 7, NULL, 'scprice', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '---\nfilter_range: null\ncontext_list:\n  - 0\nrelation_id: 0\nlabel_in_list: none\nlabel_in_item: none\nwrap_type: auto\nwrap_width:\nis_required: null\nis_digits: null\nis_alphanumeric: null\nis_email: null\nis_unique: null\nprofile_value:\n', '---\n- 0\n', '---\n- 0\n', '---\n- 0\n');");
 			if ($sale){
-				$this->model->db->query("ALTER TABLE {#}con_{$this->ctype_name} ADD `sale` float DEFAULT NULL");
+				$this->model->db->query("ALTER TABLE {#}con_{$this->ctype_name} ADD `sale` DECIMAL(19,2) UNSIGNED NULL DEFAULT NULL");
 			} else {
 				$errors .= 'sale, ';
 			}

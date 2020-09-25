@@ -2,7 +2,7 @@
 	$this->addCSS($this->getTplFilePath('controllers/showcase/css/cart.css', false));
 	$showcase = cmsCore::getController('showcase');
 ?>
-<script>icms.showcase.cart_styles.normal = 1;</script>
+<?php ob_start(); ?><script>icms.showcase.cart_styles.normal = 1;</script><?php $this->addBottom(ob_get_clean()); ?>
 <div class="wd_sc_cart sc_style_normal">
 	
 	<div class="wd_sc_cart_loader">
@@ -53,16 +53,14 @@
 					</a>
 				</div>
 			<?php } ?>
-			<div class="wd_scl_footer">
-				<?php 
-					$this->renderControllerChild('showcase/tpl', 'steps_footer', array(
-						'showcase' => $showcase,
-						'summ' => $summ, 
-						'next' => !empty($next) ? $next : '', 
-						'sale' => $sale, 
-					));
-				?>
-			</div>
+			<?php 
+				$this->renderControllerChild('showcase/tpl', 'steps_footer', array(
+					'showcase' => $showcase,
+					'summ' => $summ, 
+					'next' => !empty($next) ? $next : '', 
+					'sale' => $sale, 
+				));
+			?>
 		<?php } else { ?>
 			<p class="sc_no_goods">
 				<span>Нет товаров</span>

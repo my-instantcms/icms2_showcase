@@ -21,7 +21,7 @@
 <?php } else if ($system['gateway_name'] == 'check'){ ?>
 	<?php
 		$phrase = array("{order_id}", "{order_price}");
-		$healthy = array($order['id'], $order['price']);
+		$healthy = array($order['id'], $this->controller->getPriceFormat($order['price']));
 		echo !empty($this->controller->options['pay_check_data']) ? str_replace($phrase, $healthy, $this->controller->options['pay_check_data']) : 'Поле "Реквизиты" не заполнены администратором';
 	?>
 <?php } else { ?>

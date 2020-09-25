@@ -4,10 +4,6 @@ class actionShowcaseOrders extends cmsAction {
 
     public function run($id = false, $status = 1){
 		
-		if(!$this->cms_user->is_logged){
-			cmsUser::goLogin();
-		}
-		
 		$is_manager = ($this->cms_user->id && in_array($this->cms_user->id, $this->managers) || $this->cms_user->is_admin);
 		
 		if ($id){

@@ -67,7 +67,7 @@
 							}
 						?>
 					<?php } else if ($name == 'price'){ ?>
-						<input type="number" class="price_input" placeholder="<?php echo !empty($titles[$name]) ? $titles[$name] : $name; ?>" value="<?php html($val); ?>" />
+						<input type="number" class="price_input" name="price" placeholder="<?php echo !empty($titles[$name]) ? $titles[$name] : $name; ?>" value="<?php html($val); ?>" />
 						<span><?php echo !empty($this->controller->options['currency']) ? $this->controller->options['currency'] : LANG_CURRENCY; ?></span>
 					<?php } else if ($name == 'sale_id'){ ?>
 						<?php echo html_select($name, array(0 => LANG_SELECT) + array_collection_to_list($sales, 'id', 'title'), $val); ?>
@@ -114,19 +114,22 @@
 						<div class="sc_order_view_goods">
 							<?php foreach ($val as $index => $good){ ?>
 								<div class="sc_order_view_good">
-									<?php echo html_select($name . '[' . $index . ']', array_collection_to_list($goods, 'id', 'title'), $good['id'], array('id' => $name . '_' . $index)); ?>
+									<?php echo html_select($name . '[' . $index . '][item_id]', array_collection_to_list($goods, 'id', 'title'), $good['id'], array('id' => $name . '_' . $index)); ?>
 									<?php echo html_select($name . '[' . $index . '][variant]', array_collection_to_list($variants, 'id', 'title'), $good['variant_id'], array('id' => $name . '_variant_' . $index)); ?>
-									<a href="#" class="scovg_delete">X</a>
+									<input type="number" class="scGoodEditQty" name="<?php html($name . '[' . $index . '][qty]'); ?>" placeholder="Количество" value="<?php html($good['qty']); ?>" />
+									<a href="javascript:void(0)" onClick="swDeleteGoods(this)" class="scovg_delete">X</a>
+									<?php ob_start(); ?>
+									<script type="text/javascript">
+										$(document).ready(function() {
+											$("#<?php echo $name . '_' . $index; ?>").change(function () {
+												icms.forms.updateChildList('<?php echo $name . '_variant_' . $index; ?>', '<?php echo href_to("showcase", "get_ajax_variants"); ?>', $(this).val(), "<?php html($good['variant_id']); ?>");
+											}).change();
+										});
+									</script>
+									<?php $this->addBottom(ob_get_clean()); ?>
 								</div>
-								<script type="text/javascript">
-									$(document).ready(function() {
-										$("#<?php echo $name . '_' . $index; ?>").change(function () {
-											icms.forms.updateChildList('<?php echo $name . '_variant_' . $index; ?>', '<?php echo href_to("showcase", "get_ajax_variants"); ?>', $(this).val(), "<?php html($good['variant_id']); ?>");
-										}).change();
-									});
-								</script>
 							<?php } ?>
-							<a href="#" class="scovg_add_goods">Добавить товар</a>
+							<a href="javascript:void(0)" class="scovg_add_goods" onClick="swCloneGoods(this)">Добавить товар</a>
 						</div>
 					<?php } else { ?>
 						<?php html($val); ?>
@@ -136,11 +139,12 @@
 		<?php } ?>
 		<tr>
 			<td colspan="2" class="sc_order_btns">
-				<a href="#"><i class="fa fa-save"></i> <?php html(LANG_SAVE); ?></a>
+				<a href="javascript:void(0)" onClick="swSaveOrder(this)"><i class="fa fa-save"></i> <?php html(LANG_SAVE); ?></a>
 			</td>
 		</tr>
 	</tbody>
 </table>
+<?php ob_start(); ?>
 <script>
 	<?php if (!empty($this->controller->options['payment']) && $this->controller->options['payment'] != 'off'){ ?>
 		function scOrderPay(btn){
@@ -182,4 +186,33 @@
 			}, 'json');
 		}
 	}
+	function swCloneGoods(btn){
+		var block = $('.sc_order_view_goods .sc_order_view_good').eq(0).clone();
+		block.insertBefore(btn);
+	}
+	function swDeleteGoods(btn){
+		if ($('.sc_order_view_goods .sc_order_view_good').length == 1){
+			return;
+		}
+		var parent = $(btn).parent();
+		parent.remove();
+	}
+	var save_data = {};
+	function swSaveOrder(btn){
+		$(".sc_order_edit input, .sc_order_edit select").each(function(index) {
+			var name = $(this).attr('name');
+			var value = $(this).val();
+			save_data[name] = value;
+		});
+		if (!$.isEmptyObject(save_data)){
+			$.post('<?php echo href_to('showcase', 'order_save'); ?>/' + <?php html($order['id']); ?>, {data : save_data}, function(result){
+				if(result.error){
+					icms.modal.alert(result.message);
+				} else {
+					icms.modal.alert('Успешно сохранено');
+				}
+			}, 'json');
+		}
+	}
 </script>
+<?php $this->addBottom(ob_get_clean()); ?>

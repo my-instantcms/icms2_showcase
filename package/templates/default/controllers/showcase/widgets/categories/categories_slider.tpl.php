@@ -25,7 +25,7 @@
 		<?php } ?>
 	</div>
 </div>
-
+<?php ob_start(); ?>
 <script type="text/javascript">
 	$(document).ready(function() {
 	
@@ -69,3 +69,4 @@
 		});
 	});
 </script>
+<?php $this->addBottom(ob_get_clean()); ?>
